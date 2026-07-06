@@ -1,0 +1,32 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import ArchivePanel from "../../../components/ArchivePanel.astro";
+import RecordList from "../../../components/RecordList.astro";
+import { getBlogTags, getPublishedBlogPosts, slugifyFilter } from "../../../lib/content";
+
+export async function getStaticPaths() {
+  const posts = await getPublishedBlogPosts();
+
+  return getBlogTags(posts).map((tag) => ({
+    params: { tag: tag.slug },
+    props: { tag, posts }
+  }));
+}
+
+const { tag, posts } = Astro.props;
+const entries = posts
+  .filter((post) => post.data.tags.some((value) => slugifyFilter(value) === tag.slug))
+  .map((post) => ({ ...post, collection: "blog" as const }));
+---
+
+<BaseLayout
+  title={`Blog Tag: ${tag.label}`}
+  description={`Published blog posts tagged ${tag.label}.`}
+  currentPath="blog"
+>
+  <main class="page-shell">
+    <ArchivePanel label="Blog Tag" title={tag.label}>
+      <RecordList entries={entries} emptyMessage="No published blog posts are available for this tag." />
+    </ArchivePanel>
+  </main>
+</BaseLayout>

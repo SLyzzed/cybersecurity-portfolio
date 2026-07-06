@@ -1,0 +1,40 @@
+---
+import { formatDate, getEntryUrl } from "../lib/content";
+
+interface Entry {
+  slug: string;
+  collection: "projects" | "writeups" | "blog";
+  data: {
+    title: string;
+    description: string;
+    date: Date;
+    tags?: string[];
+    category?: string;
+  };
+}
+
+interface Props {
+  entries: Entry[];
+  emptyMessage: string;
+}
+
+const { entries, emptyMessage } = Astro.props;
+---
+
+{entries.length > 0 ? (
+  <ul class="record-list">
+    {entries.map((entry) => (
+      <li id={entry.slug}>
+        <span class="meta">{formatDate(entry.data.date)}</span>
+        <a href={getEntryUrl(entry.collection, entry.slug)}>{entry.data.title}</a>
+        <p>{entry.data.description}</p>
+        {entry.data.category && <span class="meta">{entry.data.category}</span>}
+        {entry.data.tags && entry.data.tags.length > 0 && (
+          <span class="meta">{entry.data.tags.join(" / ")}</span>
+        )}
+      </li>
+    ))}
+  </ul>
+) : (
+  <p class="empty-state">{emptyMessage}</p>
+)}

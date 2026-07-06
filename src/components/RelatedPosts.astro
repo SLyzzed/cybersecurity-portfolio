@@ -1,0 +1,28 @@
+---
+import RecordList from "./RecordList.astro";
+
+interface Post {
+  slug: string;
+  data: {
+    title: string;
+    description: string;
+    date: Date;
+    tags?: string[];
+    category?: string;
+  };
+}
+
+interface Props {
+  posts: Post[];
+}
+
+const { posts } = Astro.props;
+const entries = posts.map((post) => ({ ...post, collection: "blog" as const }));
+---
+
+{posts.length > 0 && (
+  <section class="related-section" aria-labelledby="related-title">
+    <p class="record-label" id="related-title">Related Posts</p>
+    <RecordList entries={entries} emptyMessage="" />
+  </section>
+)}

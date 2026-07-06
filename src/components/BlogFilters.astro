@@ -1,0 +1,39 @@
+---
+import { sitePath } from "../lib/content";
+
+interface FilterItem {
+  slug: string;
+  label: string;
+}
+
+interface Props {
+  categories: FilterItem[];
+  tags: FilterItem[];
+}
+
+const { categories, tags } = Astro.props;
+---
+
+<div class="filter-block" aria-label="Blog filters">
+  {categories.length > 0 && (
+    <section aria-labelledby="category-filter-title">
+      <p class="record-label" id="category-filter-title">Categories</p>
+      <div class="filter-list">
+        {categories.map((category) => (
+          <a href={sitePath(`/blog/category/${category.slug}/`)}>{category.label}</a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {tags.length > 0 && (
+    <section aria-labelledby="tag-filter-title">
+      <p class="record-label" id="tag-filter-title">Tags</p>
+      <div class="filter-list">
+        {tags.map((tag) => (
+          <a href={sitePath(`/blog/tag/${tag.slug}/`)}>{tag.label}</a>
+        ))}
+      </div>
+    </section>
+  )}
+</div>

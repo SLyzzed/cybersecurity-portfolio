@@ -1,0 +1,23 @@
+{
+  "name": "slyzzed-cybersecurity-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/astro-cli.mjs dev",
+    "build": "npm run privacy:check && node scripts/astro-cli.mjs build",
+    "preview": "node scripts/astro-cli.mjs preview",
+    "test:site": "node scripts/start-test-site.mjs",
+    "privacy:check": "node scripts/privacy-check.mjs",
+    "check:links": "node scripts/check-links.mjs",
+    "new:project": "node scripts/new-content.mjs project",
+    "new:writeup": "node scripts/new-content.mjs writeup",
+    "new:blog": "node scripts/new-content.mjs blog"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "astro": "^5.13.5",
+    "typescript": "^5.9.2"
+  },
+  "devDependencies": {}
+}

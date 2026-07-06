@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArchivePanel from "../../components/ArchivePanel.astro";
+import RecordList from "../../components/RecordList.astro";
+import { getPublishedEntries } from "../../lib/content";
+
+const writeups = (await getPublishedEntries("writeups")).map((entry) => ({
+  ...entry,
+  collection: "writeups" as const
+}));
+---
+
+<BaseLayout title="Write-ups" description="Technical cybersecurity write-ups and notes by Slyzzed." currentPath="writeups">
+  <main class="page-shell">
+    <ArchivePanel label="Technical Write-ups" title="Write-ups">
+      <RecordList entries={writeups} emptyMessage="No published write-ups are available yet." />
+    </ArchivePanel>
+  </main>
+</BaseLayout>

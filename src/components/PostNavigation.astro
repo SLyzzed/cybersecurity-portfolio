@@ -1,0 +1,34 @@
+---
+import { getEntryUrl } from "../lib/content";
+
+interface Post {
+  slug: string;
+  data: {
+    title: string;
+  };
+}
+
+interface Props {
+  previous?: Post;
+  next?: Post;
+}
+
+const { previous, next } = Astro.props;
+---
+
+{(previous || next) && (
+  <nav class="post-nav" aria-label="Post navigation">
+    {previous && (
+      <a href={getEntryUrl("blog", previous.slug)}>
+        <span class="meta">Previous</span>
+        {previous.data.title}
+      </a>
+    )}
+    {next && (
+      <a href={getEntryUrl("blog", next.slug)}>
+        <span class="meta">Next</span>
+        {next.data.title}
+      </a>
+    )}
+  </nav>
+)}

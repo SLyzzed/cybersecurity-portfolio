@@ -1,0 +1,39 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ArchivePanel from "../components/ArchivePanel.astro";
+import RecordList from "../components/RecordList.astro";
+import { getFeaturedEntries, sitePath } from "../lib/content";
+
+const featuredEntries = await getFeaturedEntries();
+---
+
+<BaseLayout
+  title="Slyzzed"
+  description="Slyzzed cybersecurity documentation index for projects, technical write-ups, lab documentation, and lessons learned."
+  currentPath="home"
+>
+  <main class="page-shell">
+    <ArchivePanel
+      label="Cybersecurity Documentation"
+      title="Slyzzed"
+      lede="Projects, technical write-ups, lab documentation, and lessons learned."
+      home
+    >
+      <nav class="index-list" aria-label="Documentation index">
+        <a href={sitePath("/projects/")}>View Projects</a>
+        <a href={sitePath("/writeups/")}>Read Write-ups</a>
+        <a href={sitePath("/blog/")}>Read Blog</a>
+        <a href={sitePath("/about/")}>About</a>
+        <a href="https://github.com/SLyzzed" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </nav>
+
+      <section class="featured-section" aria-labelledby="featured-title">
+        <p class="record-label" id="featured-title">Featured Records</p>
+        <RecordList
+          entries={featuredEntries}
+          emptyMessage="No published featured records are available yet."
+        />
+      </section>
+    </ArchivePanel>
+  </main>
+</BaseLayout>

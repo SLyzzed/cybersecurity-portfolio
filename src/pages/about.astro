@@ -1,0 +1,18 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ArchivePanel from "../components/ArchivePanel.astro";
+---
+
+<BaseLayout title="About" description="About Slyzzed's cybersecurity documentation website." currentPath="about">
+  <main class="page-shell">
+    <ArchivePanel
+      label="Author Record"
+      title="About"
+      lede="This website is used to publish technical projects, cybersecurity labs, investigations, and lessons learned. It is a practical record of research, implementation notes, documentation, and reflections gathered over time."
+    >
+      <div class="link-block" aria-label="External profile links">
+        <a href="https://github.com/SLyzzed" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+    </ArchivePanel>
+  </main>
+</BaseLayout>
