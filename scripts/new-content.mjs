@@ -29,9 +29,11 @@ const slug = options.slug ?? slugify(title);
 const date = options.date ?? new Date().toISOString().slice(0, 10);
 const root = process.cwd();
 
-if (type === "project" && options.structured === "true") {
-  createStructuredProject({ root, title, description, slug, date, options });
-  process.exit(0);
+if (type === "project") {
+  fail(
+    "Projects are authored exclusively in the approved Obsidian Portfolio folder. " +
+    "Run Publish-ObsidianPortfolio.ps1 to generate the website copy."
+  );
 }
 
 const contentTypes = {

@@ -1,18 +1,24 @@
 ---
-title: "DFIR Homelab"
-description: "Documentation of a dedicated homelab designed to support the complete digital forensics and incident response lifecycle."
-date: 2026-07-11
-status: published
-featured: true
-tags:
-  - "DFIR"
-  - "homelab"
-  - "SIEM"
-projectSlug: "dfir-homelab"
-pageType: "landing"
-navigationTitle: "Overview"
+Title: Homelab Current State
+description: Homelab Current Configuration State
+Date: 2026-07-11
+Status: Published
+Featured: false
+Tags:
+  - dfir-homelab
+  - incident-scenario
+ProjectSlug: dfir-homelab
+pagetype: incident-scenario
+navigationTitle: Homelab Configuration
 navigationOrder: 0
-category: "Digital Forensics and Incident Response"
+category: Incident Scenarios
+title: Homelab Current State
+date: 2026-07-11
+status: draft
+featured: false
+tags: []
+projectSlug: "dfir-homelab"
+pageType: "subpage"
 ---
 # Homelab Configuration Overview
 

@@ -1,20 +1,14 @@
 {
-  "name": "DFIR Homelab",
-  "slug": "dfir-homelab",
-  "description": "A controlled environment for building, maintaining, and demonstrating digital forensics and incident response capabilities.",
-  "status": "published",
-  "category": "Digital Forensics and Incident Response",
-  "pages": [
-    { "title": "Overview", "slug": "overview", "order": 0 },
-    { "title": "Architecture", "slug": "architecture", "order": 1 },
-    { "title": "Lab Build", "slug": "lab-build", "order": 2 },
-    { "title": "Security and Isolation", "slug": "security-and-isolation", "order": 3 },
-    { "title": "Detection Engineering", "slug": "detection-engineering", "order": 4 },
-    { "title": "Incident Scenarios", "slug": "incident-scenarios", "order": 5, "template": "incident-scenario" },
-    { "title": "Investigations", "slug": "investigations", "order": 6, "template": "investigation" },
-    { "title": "Incident Reports", "slug": "incident-reports", "order": 7, "template": "incident-report" },
-    { "title": "Runbooks", "slug": "runbooks", "order": 8, "template": "runbook" },
-    { "title": "Lessons Learned", "slug": "lessons-learned", "order": 9, "template": "lessons-learned" },
-    { "title": "Roadmap", "slug": "roadmap", "order": 10 }
-  ]
+    "name":  "DFIR Homelab",
+    "slug":  "dfir-homelab",
+    "description":  "A controlled environment for building, maintaining, and demonstrating digital forensics and incident response capabilities.",
+    "status":  "published",
+    "category":  "Digital Forensics and Incident Response",
+    "pages":  [
+                  {
+                      "title":  "Homelab Current State",
+                      "slug":  "homelab-current-state",
+                      "order":  0
+                  }
+              ]
 }

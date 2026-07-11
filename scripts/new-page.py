@@ -227,6 +227,12 @@ def create_structured_project(repo_root: Path, title: str, description: str) -> 
 def main() -> int:
     repo_root = Path(__file__).resolve().parent.parent
     page_type = choose_page_type()
+    if page_type.key == "project":
+        print(
+            "Projects are authored exclusively in the approved Obsidian Portfolio folder.\n"
+            "Run Publish-ObsidianPortfolio.ps1 to generate the website copy."
+        )
+        return 1
     title = ask("Title:", required=True)
     description = ask("Short description:", required=True)
     if page_type.key == "project" and ask_yes_no("Create a landing page with ordered subpages?", default=True):

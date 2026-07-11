@@ -73,29 +73,11 @@ Blog posts also support `updatedDate`, `authorAlias`, `category`, `tags`, and op
 
 ## Creating A Project
 
-```bash
-npm run new:project -- --title "Home SIEM Lab" --description "Security monitoring lab documentation"
-```
-
-This creates a draft Markdown file in `src/content/projects`.
+Projects are authored exclusively inside the approved private Obsidian Portfolio folder. The website copy under `src/content/projects` is generated and must not be edited manually.
 
 ### Creating A Structured Project
 
-Use `--structured` when a project needs a landing page and ordered documentation subpages:
-
-```bash
-npm run new:project -- --structured --title "Home SIEM Lab" --description "Security monitoring lab documentation" --category "Security Engineering" --subpages "Architecture:architecture,Incident Scenarios:incident-scenarios:incident-scenario,Runbooks:runbooks:runbook,Lessons Learned:lessons-learned:lessons-learned,Roadmap:roadmap"
-```
-
-Each subpage uses `Title:slug` or `Title:slug:template`. Supported specialised templates are `incident-scenario`, `investigation`, `incident-report`, `runbook`, and `lessons-learned`; omit the template name to use the general project-page template.
-
-The command creates:
-
-- `src/content/projects/<project-slug>/overview.md`
-- One Markdown file per configured subpage
-- `src/config/projects/<project-slug>.json`, which controls cards and navigation order
-
-Structured projects default to draft status. Review and sanitise every generated file, remove its guidance comments, then change the project configuration and page frontmatter to `published` when the content is ready.
+Create new pages alongside `overview.md` in the vault using structured-project frontmatter. The publisher generates the website Markdown and navigation configuration. The legacy project generators now exit with guidance rather than creating a competing repository copy.
 
 ## Creating A Write-up
 
