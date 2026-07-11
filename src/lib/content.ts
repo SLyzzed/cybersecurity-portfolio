@@ -1,11 +1,11 @@
-import { getCollection } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 
 export type CollectionName = "projects" | "writeups" | "blog";
 
-export async function getPublishedEntries(collection: CollectionName) {
+export async function getPublishedEntries<C extends CollectionName>(collection: C): Promise<CollectionEntry<C>[]> {
   const entries = await getCollection(collection, ({ data }) => data.status === "published");
 
-  return entries.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  return entries.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()) as CollectionEntry<C>[];
 }
 
 export async function getFeaturedEntries() {
@@ -57,7 +57,7 @@ export function getBlogTags(posts: Awaited<ReturnType<typeof getPublishedBlogPos
 }
 
 export function getAdjacentPosts(posts: Awaited<ReturnType<typeof getPublishedBlogPosts>>, slug: string) {
-  const index = posts.findIndex((post) => post.slug === slug);
+  const index = posts.findIndex((post) => post.id === slug);
 
   return {
     previous: index >= 0 ? posts[index + 1] : undefined,
@@ -74,7 +74,7 @@ export function getRelatedPosts(
   const tagSet = new Set(tags.map((tag) => tag.toLowerCase()));
 
   return posts
-    .filter((post) => post.slug !== slug)
+    .filter((post) => post.id !== slug)
     .map((post) => ({
       post,
       score: post.data.tags.filter((tag) => tagSet.has(tag.toLowerCase())).length
@@ -94,7 +94,10 @@ export function formatDate(date: Date) {
 }
 
 export function getEntryUrl(collection: CollectionName, slug: string) {
-  return sitePath(`/${collection}/${slug}/`);
+  const routeSlug = collection === "projects" && (slug.endsWith("/index") || slug.endsWith("/overview"))
+    ? slug.slice(0, slug.lastIndexOf("/"))
+    : slug;
+  return sitePath(`/${collection}/${routeSlug}/`);
 }
 
 export function sitePath(pathname: string) {

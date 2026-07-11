@@ -14,7 +14,7 @@ export async function getStaticPaths() {
   const posts = await getCollection("blog", ({ data }) => data.status === "published");
 
   return posts.map((entry) => ({
-    params: { slug: entry.slug },
+    params: { slug: entry.id },
     props: { entry }
   }));
 }
@@ -22,9 +22,9 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const posts = await getPublishedBlogPosts();
-const readingTime = estimateReadingTime(entry.body);
-const { previous, next } = getAdjacentPosts(posts, entry.slug);
-const relatedPosts = getRelatedPosts(posts, entry.slug, entry.data.tags);
+const readingTime = estimateReadingTime(entry.body ?? "");
+const { previous, next } = getAdjacentPosts(posts, entry.id);
+const relatedPosts = getRelatedPosts(posts, entry.id, entry.data.tags);
 ---
 
 <MarkdownLayout

@@ -7,7 +7,7 @@ export async function GET() {
 
   const items = posts
     .map((post) => {
-      const url = new URL(getEntryUrl("blog", post.slug), site).toString();
+      const url = new URL(getEntryUrl("blog", post.id), site).toString();
       const date = post.data.updatedDate ?? post.data.date;
 
       return [

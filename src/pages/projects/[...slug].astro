@@ -1,18 +1,28 @@
 ---
 import { getCollection, render } from "astro:content";
 import MarkdownLayout from "../../layouts/MarkdownLayout.astro";
+import ProjectNavigation from "../../components/ProjectNavigation.astro";
+import { getProjectConfig } from "../../lib/projects";
 
 export async function getStaticPaths() {
   const projects = await getCollection("projects", ({ data }) => data.status === "published");
 
   return projects.map((entry) => ({
-    params: { slug: entry.slug },
+    params: {
+      slug: entry.data.pageType === "landing" && entry.data.projectSlug
+        ? entry.data.projectSlug
+        : entry.id
+    },
     props: { entry }
   }));
 }
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+const project = entry.data.projectSlug ? getProjectConfig(entry.data.projectSlug) : undefined;
+const currentPageSlug = entry.data.pageType === "landing"
+  ? "overview"
+  : entry.id.split("/").at(-1) ?? entry.id;
 ---
 
 <MarkdownLayout
@@ -23,5 +33,12 @@ const { Content } = await render(entry);
   currentPath="projects"
   tags={entry.data.tags}
 >
+  {project && <ProjectNavigation project={project} currentPageSlug={currentPageSlug} showPager={false} />}
   <Content />
+  {project && entry.data.pageType === "landing" && (
+    <ProjectNavigation project={project} currentPageSlug={currentPageSlug} showCards showBreadcrumb={false} />
+  )}
+  {project && entry.data.pageType === "subpage" && (
+    <ProjectNavigation project={project} currentPageSlug={currentPageSlug} showBreadcrumb={false} />
+  )}
 </MarkdownLayout>

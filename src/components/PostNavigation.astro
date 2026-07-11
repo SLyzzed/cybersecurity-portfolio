@@ -2,7 +2,7 @@
 import { getEntryUrl } from "../lib/content";
 
 interface Post {
-  slug: string;
+  id: string;
   data: {
     title: string;
   };
@@ -19,13 +19,13 @@ const { previous, next } = Astro.props;
 {(previous || next) && (
   <nav class="post-nav" aria-label="Post navigation">
     {previous && (
-      <a href={getEntryUrl("blog", previous.slug)}>
+      <a href={getEntryUrl("blog", previous.id)}>
         <span class="meta">Previous</span>
         {previous.data.title}
       </a>
     )}
     {next && (
-      <a href={getEntryUrl("blog", next.slug)}>
+      <a href={getEntryUrl("blog", next.id)}>
         <span class="meta">Next</span>
         {next.data.title}
       </a>

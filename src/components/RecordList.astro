@@ -2,7 +2,7 @@
 import { formatDate, getEntryUrl } from "../lib/content";
 
 interface Entry {
-  slug: string;
+  id: string;
   collection: "projects" | "writeups" | "blog";
   data: {
     title: string;
@@ -24,9 +24,9 @@ const { entries, emptyMessage } = Astro.props;
 {entries.length > 0 ? (
   <ul class="record-list">
     {entries.map((entry) => (
-      <li id={entry.slug}>
+      <li id={entry.id}>
         <span class="meta">{formatDate(entry.data.date)}</span>
-        <a href={getEntryUrl(entry.collection, entry.slug)}>{entry.data.title}</a>
+        <a href={getEntryUrl(entry.collection, entry.id)}>{entry.data.title}</a>
         <p>{entry.data.description}</p>
         {entry.data.category && <span class="meta">{entry.data.category}</span>}
         {entry.data.tags && entry.data.tags.length > 0 && (

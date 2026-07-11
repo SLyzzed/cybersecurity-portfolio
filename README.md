@@ -79,6 +79,24 @@ npm run new:project -- --title "Home SIEM Lab" --description "Security monitorin
 
 This creates a draft Markdown file in `src/content/projects`.
 
+### Creating A Structured Project
+
+Use `--structured` when a project needs a landing page and ordered documentation subpages:
+
+```bash
+npm run new:project -- --structured --title "Home SIEM Lab" --description "Security monitoring lab documentation" --category "Security Engineering" --subpages "Architecture:architecture,Incident Scenarios:incident-scenarios:incident-scenario,Runbooks:runbooks:runbook,Lessons Learned:lessons-learned:lessons-learned,Roadmap:roadmap"
+```
+
+Each subpage uses `Title:slug` or `Title:slug:template`. Supported specialised templates are `incident-scenario`, `investigation`, `incident-report`, `runbook`, and `lessons-learned`; omit the template name to use the general project-page template.
+
+The command creates:
+
+- `src/content/projects/<project-slug>/overview.md`
+- One Markdown file per configured subpage
+- `src/config/projects/<project-slug>.json`, which controls cards and navigation order
+
+Structured projects default to draft status. Review and sanitise every generated file, remove its guidance comments, then change the project configuration and page frontmatter to `published` when the content is ready.
+
 ## Creating A Write-up
 
 ```bash
@@ -145,3 +163,79 @@ Settings -> Pages -> Source -> GitHub Actions
 ```
 
 The Astro base path is configured in `astro.config.mjs` for this repository name. If the repository name changes, update `base` before deploying.
+
+## Publishing From Obsidian
+
+Obsidian is treated as the documentation source of truth. The local PowerShell publisher reads an approved vault subtree and generates the sanitised Astro copy; it never writes to the vault.
+
+### Prerequisites
+
+- Windows PowerShell 5.1 or later
+- Node.js and the repository dependencies installed
+- `OBSIDIAN_VAULT_PATH` set to the vault root, or an absolute `-VaultPath` argument
+- An approved source folder matching `portfolioSourceFolder` in `obsidian-publish.config.json`
+
+The default structure is:
+
+```text
+Obsidian vault/
+└── Portfolio/Projects/dfir-homelab/
+    ├── overview.md
+    ├── architecture.md
+    └── Assets/Diagrams/example.png
+
+Website repository/
+├── src/content/projects/dfir-homelab/
+├── public/images/projects/dfir-homelab/
+└── src/config/projects/dfir-homelab.json
+```
+
+Review a publish without changing the website:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\Publish-ObsidianPortfolio.ps1 -DryRun -Verbose
+```
+
+Publish using the configured environment variable:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\Publish-ObsidianPortfolio.ps1 -Verbose
+```
+
+Or supply the vault explicitly:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\Publish-ObsidianPortfolio.ps1 -VaultPath "C:\Path With Spaces\Private Vault"
+```
+
+The publisher excludes `.obsidian`, templates, drafts, private notes, trash, backups, temporary files, and any directory containing `.publish-exclude`. Extend these rules in `obsidian-publish.config.json`.
+
+Only referenced Obsidian assets are copied. Add images inside the approved project tree and embed them with:
+
+```markdown
+![[Assets/Diagrams/example.png]]
+```
+
+Wiki links use the note title or filename:
+
+```markdown
+[[Network Architecture]]
+[[Network Architecture|Architecture overview]]
+```
+
+New documentation pages should be created inside the approved project folder. Use unique filenames and `navigationOrder` values. Existing frontmatter is preserved; missing Astro fields are generated with draft status so incomplete pages are not published accidentally.
+
+Stale output is removed only when it was recorded in `.obsidian-publish-manifest.json` and remains inside the configured Markdown or asset destination. Unrelated repository files are never deleted.
+
+Known limitations:
+
+- Wiki-link resolution is title/filename based; duplicate titles or slugs fail validation.
+- Heading fragments in wiki links are currently resolved to the page route, without converting the heading fragment.
+- Obsidian transclusions other than image/file embeds are not rendered.
+- The publisher does not copy unused assets unless a future configuration explicitly enables that behaviour.
+
+Run the repeatable fixture suite with:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\Test-ObsidianPublisher.ps1
+```

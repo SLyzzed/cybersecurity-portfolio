@@ -4,10 +4,9 @@ import ArchivePanel from "../../components/ArchivePanel.astro";
 import RecordList from "../../components/RecordList.astro";
 import { getPublishedEntries } from "../../lib/content";
 
-const projects = (await getPublishedEntries("projects")).map((entry) => ({
-  ...entry,
-  collection: "projects" as const
-}));
+const projects = (await getPublishedEntries("projects"))
+  .filter((entry) => entry.data.pageType !== "subpage")
+  .map((entry) => ({ ...entry, collection: "projects" as const }));
 ---
 
 <BaseLayout title="Projects" description="Cybersecurity project documentation by Slyzzed." currentPath="projects">
