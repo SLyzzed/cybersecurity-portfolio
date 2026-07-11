@@ -33,7 +33,7 @@ console.log("");
 
 const server = spawn(
   process.execPath,
-  ["scripts/astro-cli.mjs", "preview", "--host", host, "--port", port],
+  ["scripts/site/astro-cli.mjs", "preview", "--host", host, "--port", port],
   {
     stdio: "inherit",
     shell: false,

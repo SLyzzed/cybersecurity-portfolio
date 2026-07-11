@@ -1,24 +1,17 @@
 ---
-Title: Homelab Current State
-description: Homelab Current Configuration State
-Date: 2026-07-11
-Status: Published
-Featured: false
-Tags:
+title: Homelab Current State
+description: A snapshot of the homelabâ€™s current architecture, active security controls, monitoring capabilities, and remaining implementation work.
+date: 2026-07-11
+status: published
+featured: false
+tags:
   - dfir-homelab
   - incident-scenario
-ProjectSlug: dfir-homelab
-pagetype: incident-scenario
+projectSlug: dfir-homelab
+pageType: "landing"
 navigationTitle: Homelab Configuration
 navigationOrder: 0
 category: Incident Scenarios
-title: Homelab Current State
-date: 2026-07-11
-status: draft
-featured: false
-tags: []
-projectSlug: "dfir-homelab"
-pageType: "subpage"
 ---
 # Homelab Configuration Overview
 

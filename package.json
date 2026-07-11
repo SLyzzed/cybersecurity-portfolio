@@ -4,15 +4,15 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node scripts/astro-cli.mjs dev",
-    "build": "npm run privacy:check && node scripts/astro-cli.mjs build",
-    "preview": "node scripts/astro-cli.mjs preview",
-    "test:site": "node scripts/start-test-site.mjs",
-    "privacy:check": "node scripts/privacy-check.mjs",
-    "check:links": "node scripts/check-links.mjs",
-    "new:project": "node scripts/new-content.mjs project",
-    "new:writeup": "node scripts/new-content.mjs writeup",
-    "new:blog": "node scripts/new-content.mjs blog"
+    "dev": "node scripts/site/astro-cli.mjs dev",
+    "build": "npm run privacy:check && node scripts/site/astro-cli.mjs build",
+    "preview": "node scripts/site/astro-cli.mjs preview",
+    "test:site": "node scripts/site/start-test-site.mjs",
+    "privacy:check": "node scripts/site/privacy-check.mjs",
+    "check:links": "node scripts/site/check-links.mjs",
+    "new:project": "node scripts/content/new-content.mjs project",
+    "new:writeup": "node scripts/content/new-content.mjs writeup",
+    "new:blog": "node scripts/content/new-content.mjs blog"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",

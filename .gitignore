@@ -7,8 +7,9 @@ node_modules/
 dist/
 .astro/
 privacy.config.json
+docs/local/
 
 # Local Obsidian integration contains machine-specific workflow details.
-scripts/*obsidian*.*
-scripts/*Obsidian*.*
+scripts/obsidian/
+scripts/tests/Test-ObsidianPublisher.*
 .test-output/

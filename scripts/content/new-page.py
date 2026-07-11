@@ -225,7 +225,7 @@ def create_structured_project(repo_root: Path, title: str, description: str) -> 
 
 
 def main() -> int:
-    repo_root = Path(__file__).resolve().parent.parent
+    repo_root = Path(__file__).resolve().parents[2]
     page_type = choose_page_type()
     if page_type.key == "project":
         print(

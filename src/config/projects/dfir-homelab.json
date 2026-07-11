@@ -7,7 +7,7 @@
     "pages":  [
                   {
                       "title":  "Homelab Current State",
-                      "slug":  "homelab-current-state",
+                      "slug":  "overview",
                       "order":  0
                   }
               ]
