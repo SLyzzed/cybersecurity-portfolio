@@ -1,8 +1,10 @@
 {
     "version":  1,
-    "generatedAt":  "2026-07-11T04:01:09.1262955Z",
+    "generatedAt":  "2026-07-11T04:23:31.2368491Z",
     "markdown":  [
-                     "src\\content\\projects\\dfir-homelab\\overview.md"
+                     "src\\content\\projects\\dfir-homelab\\current-state.md",
+                     "src\\content\\projects\\dfir-homelab\\overview.md",
+                     "src\\content\\projects\\dfir-homelab\\roadmap.md"
                  ],
     "assets":  [
 

@@ -6,9 +6,19 @@
     "category":  "Digital Forensics and Incident Response",
     "pages":  [
                   {
-                      "title":  "Homelab Current State",
+                      "title":  "DFIR Homelab",
                       "slug":  "overview",
                       "order":  0
+                  },
+                  {
+                      "title":  "Homelab Current State",
+                      "slug":  "current-state",
+                      "order":  1
+                  },
+                  {
+                      "title":  "Homelab Roadmap and Target State",
+                      "slug":  "roadmap",
+                      "order":  2
                   }
               ]
 }
