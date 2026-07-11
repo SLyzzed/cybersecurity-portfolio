@@ -1,0 +1,20 @@
+{
+    "version":  1,
+    "generatedAt":  "2026-07-11T03:33:15.0452642Z",
+    "markdown":  [
+                     "src\\content\\projects\\dfir-homelab\\architecture.md",
+                     "src\\content\\projects\\dfir-homelab\\detection-engineering.md",
+                     "src\\content\\projects\\dfir-homelab\\incident-reports.md",
+                     "src\\content\\projects\\dfir-homelab\\incident-scenarios.md",
+                     "src\\content\\projects\\dfir-homelab\\investigations.md",
+                     "src\\content\\projects\\dfir-homelab\\lab-build.md",
+                     "src\\content\\projects\\dfir-homelab\\lessons-learned.md",
+                     "src\\content\\projects\\dfir-homelab\\overview.md",
+                     "src\\content\\projects\\dfir-homelab\\roadmap.md",
+                     "src\\content\\projects\\dfir-homelab\\runbooks.md",
+                     "src\\content\\projects\\dfir-homelab\\security-and-isolation.md"
+                 ],
+    "assets":  [
+                   "public\\images\\projects\\dfir-homelab\\assets\\diagrams\\dfir-homelab-network-architecture.png"
+               ]
+}
