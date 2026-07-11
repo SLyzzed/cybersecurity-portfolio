@@ -1,5 +1,5 @@
 ---
-import { formatDate, getEntryUrl } from "../lib/content";
+import { getEntryUrl } from "../lib/content";
 
 interface Entry {
   id: string;
@@ -25,7 +25,6 @@ const { entries, emptyMessage } = Astro.props;
   <ul class="record-list">
     {entries.map((entry) => (
       <li id={entry.id}>
-        <span class="meta">{formatDate(entry.data.date)}</span>
         <a href={getEntryUrl(entry.collection, entry.id)}>{entry.data.title}</a>
         <p>{entry.data.description}</p>
         {entry.data.category && <span class="meta">{entry.data.category}</span>}
