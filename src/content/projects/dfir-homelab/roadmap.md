@@ -30,7 +30,7 @@ The completed homelab will include:
 - Documented detection, investigation, and reporting workflows
 - Secure remote administration and system recovery procedures
 
-## Phase 1 â€” Core Infrastructure
+## Phase 1: Core Infrastructure
 
 Status: In Progress
 
@@ -42,7 +42,7 @@ Status: In Progress
 - Secure SSH and administrative access
 - Apply stable addressing to critical systems
 
-## Phase 2 â€” Network Segmentation
+## Phase 2: Network Segmentation
 
 Status: Planned
 
@@ -53,7 +53,7 @@ Status: Planned
 - Confirm that monitoring traffic can reach Wazuh
 - Test that laboratory systems cannot access protected home devices
 
-## Phase 3 â€” Laboratory Systems
+## Phase 3: Laboratory Systems
 
 Status: Planned
 
@@ -64,7 +64,7 @@ Status: Planned
 - Develop reusable virtual machine templates
 - Record baseline configurations and snapshots
 
-## Phase 4 â€” Monitoring and Evidence Collection
+## Phase 4: Monitoring and Evidence Collection
 
 Status: Planned
 
@@ -76,7 +76,7 @@ Status: Planned
 - Validate timestamps and log retention
 - Confirm that evidence can be exported for investigation
 
-## Phase 5 â€” Incident Scenarios
+## Phase 5: Incident Scenarios
 
 Status: Planned
 
@@ -88,7 +88,7 @@ Status: Planned
 - Map activity to MITRE ATT&CK
 - Produce formal incident reports
 
-## Phase 6 â€” Advanced DFIR Capabilities
+## Phase 6: Advanced DFIR Capabilities
 
 Status: Future
 
