@@ -9,6 +9,19 @@
   --highlight: #c2a96d;
   --focus: #d8c27a;
   --max-width: 900px;
+  --font-body: Arial, Helvetica, sans-serif;
+  --font-heading: Georgia, "Times New Roman", Times, serif;
+  --font-mono: "Courier New", Courier, monospace;
+  --font-size-body: 1rem;
+  --font-size-small: 0.78rem;
+  --font-size-table-heading: 0.82rem;
+  --font-size-inline-code: 0.92em;
+  --font-size-brand: 1.1rem;
+  --font-size-lede: 1.08rem;
+  --font-size-card-title: 1.18rem;
+  --font-size-page-title: clamp(2.4rem, 8vw, 4.7rem);
+  --font-size-heading-2: 1.55rem;
+  --font-size-heading-3: 1.25rem;
 }
 
 * {
@@ -28,8 +41,8 @@ body {
     var(--background);
   background-size: 32px 32px;
   color: var(--text);
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 16px;
+  font-family: var(--font-body);
+  font-size: var(--font-size-body);
   line-height: 1.65;
 }
 
@@ -68,8 +81,8 @@ a:focus-visible {
 
 .brand {
   color: var(--text);
-  font-family: Georgia, "Times New Roman", Times, serif;
-  font-size: 1.1rem;
+  font-family: var(--font-heading);
+  font-size: var(--font-size-brand);
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -86,8 +99,8 @@ a:focus-visible {
   border: 1px solid transparent;
   padding: 7px 10px;
   color: var(--muted);
-  font-family: "Courier New", Courier, monospace;
-  font-size: 0.78rem;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-small);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -145,8 +158,8 @@ a:focus-visible {
 .record-label,
 .meta {
   color: var(--highlight);
-  font-family: "Courier New", Courier, monospace;
-  font-size: 0.78rem;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-small);
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -163,8 +176,8 @@ p {
 h1 {
   margin-bottom: 18px;
   color: var(--text);
-  font-family: Georgia, "Times New Roman", Times, serif;
-  font-size: clamp(2.4rem, 8vw, 4.7rem);
+  font-family: var(--font-heading);
+  font-size: var(--font-size-page-title);
   font-weight: 700;
   letter-spacing: 0.06em;
   line-height: 1;
@@ -175,7 +188,7 @@ h1 {
   max-width: 680px;
   margin-bottom: 30px;
   color: var(--muted);
-  font-size: 1.08rem;
+  font-size: var(--font-size-lede);
 }
 
 .index-list,
@@ -197,8 +210,8 @@ h1 {
 .link-block a {
   display: block;
   padding: 17px 18px;
-  font-family: Georgia, "Times New Roman", Times, serif;
-  font-size: 1.18rem;
+  font-family: var(--font-heading);
+  font-size: var(--font-size-card-title);
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -236,8 +249,8 @@ h1 {
 .filter-list a {
   padding: 7px 10px;
   color: var(--muted);
-  font-family: "Courier New", Courier, monospace;
-  font-size: 0.78rem;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-small);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -265,8 +278,8 @@ h1 {
   display: inline-block;
   margin: 4px 0 8px;
   padding: 9px 12px;
-  font-family: Georgia, "Times New Roman", Times, serif;
-  font-size: 1.3rem;
+  font-family: var(--font-heading);
+  font-size: var(--font-size-card-title);
   letter-spacing: 0.03em;
   text-transform: uppercase;
 }
@@ -296,7 +309,7 @@ h1 {
 .markdown-content h4 {
   margin: 34px 0 14px;
   color: var(--text);
-  font-family: Georgia, "Times New Roman", Times, serif;
+  font-family: var(--font-heading);
   font-weight: 700;
   letter-spacing: 0.05em;
   line-height: 1.2;
@@ -305,17 +318,17 @@ h1 {
 
 .markdown-content h1 {
   margin-top: 0;
-  font-size: clamp(2rem, 7vw, 3.6rem);
+  font-size: var(--font-size-page-title);
 }
 
 .markdown-content h2 {
   border-top: 1px solid var(--border);
   padding-top: 22px;
-  font-size: 1.55rem;
+  font-size: var(--font-size-heading-2);
 }
 
 .markdown-content h3 {
-  font-size: 1.25rem;
+  font-size: var(--font-size-heading-3);
 }
 
 .markdown-content p,
@@ -353,8 +366,8 @@ h1 {
   background: var(--surface-deep);
   color: var(--highlight);
   padding: 2px 5px;
-  font-family: "Courier New", Courier, monospace;
-  font-size: 0.92em;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-inline-code);
 }
 
 .markdown-content pre {
@@ -399,8 +412,8 @@ h1 {
 .markdown-content th {
   background: var(--surface-deep);
   color: var(--highlight);
-  font-family: "Courier New", Courier, monospace;
-  font-size: 0.82rem;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-table-heading);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -432,8 +445,8 @@ h1 {
   padding: 0;
   list-style: none;
   color: var(--muted);
-  font-family: "Courier New", Courier, monospace;
-  font-size: 0.78rem;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-small);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
@@ -478,8 +491,8 @@ h1 {
 }
 
 .project-card-grid strong {
-  font-family: Georgia, "Times New Roman", Times, serif;
-  font-size: 1.05rem;
+  font-family: var(--font-heading);
+  font-size: var(--font-size-card-title);
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -489,7 +502,8 @@ h1 {
   gap: 4px;
   min-height: 96px;
   padding: 14px;
-  font-family: Georgia, "Times New Roman", Times, serif;
+  font-family: var(--font-heading);
+  font-size: var(--font-size-card-title);
   letter-spacing: 0.03em;
   text-transform: uppercase;
 }
@@ -515,8 +529,8 @@ h1 {
 
 .site-footer p + p {
   margin-top: 4px;
-  font-family: "Courier New", Courier, monospace;
-  font-size: 0.78rem;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-small);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -537,15 +551,6 @@ h1 {
 
   .archive-panel {
     padding: 30px 18px;
-  }
-
-  .index-list a,
-  .link-block a {
-    font-size: 1rem;
-  }
-
-  .record-list a {
-    font-size: 1.1rem;
   }
 
   .post-nav {
