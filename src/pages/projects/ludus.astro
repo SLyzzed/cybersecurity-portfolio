@@ -1,0 +1,53 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Ludus Cyber Range" description="A self-hosted cyber range built with Ludus and Proxmox for repeatable security testing, detection validation, and incident response practice." currentPath="projects">
+  <main class="page-shell">
+    <article class="archive-panel markdown-page">
+      <p class="record-label">Cybersecurity Project</p>
+      <div class="markdown-content">
+        <h1>Ludus Cyber Range</h1>
+        <p class="lede">A self-hosted cyber range built with Ludus and Proxmox for repeatable security testing, detection validation, and incident response practice.</p>
+
+        <h2>The Problem I Was Solving</h2>
+        <p>One of the biggest barriers I found with maintaining a cybersecurity homelab was the amount of time spent preparing environments.</p>
+        <p>Creating virtual machines, configuring networks, installing tooling, taking snapshots, and rebuilding systems after testing could take longer than the security exercise itself.</p>
+        <p>I wanted the lab to be something I could actually use regularly rather than another infrastructure project that constantly needed maintenance.</p>
+        <p>Ludus helps solve this by allowing me to build repeatable cyber ranges that can be deployed, tested, reset, and reused. This shifts more of my lab time toward executing attack techniques, analysing telemetry, and practising incident response rather than repeatedly configuring virtual machines.</p>
+
+        <h2>Purpose</h2>
+        <p>The goal of the environment is to make security testing repeatable.</p>
+        <p>Rather than manually rebuilding virtual machines for each exercise, Ludus allows me to deploy attacker and victim systems, take snapshots, execute controlled attack techniques, investigate the resulting telemetry, and then reset the environment for the next test.</p>
+
+        <h2>Environment</h2>
+        <p>The current environment uses:</p>
+        <ul>
+          <li><strong>Ludus</strong> — cyber range deployment and management</li>
+          <li><strong>Proxmox</strong> — virtualisation platform</li>
+          <li><strong>Wazuh</strong> — endpoint monitoring and security telemetry</li>
+          <li><strong>DFIR-IRIS</strong> — incident investigation and case management</li>
+          <li><strong>Atomic Red Team</strong> — controlled MITRE ATT&amp;CK technique execution</li>
+        </ul>
+
+        <h2>Testing Workflow</h2>
+        <ol class="workflow" aria-label="Ludus testing workflow">
+          <li>Deploy Range</li>
+          <li>Create Snapshot</li>
+          <li>Execute Controlled Technique</li>
+          <li>Collect Telemetry</li>
+          <li>Investigate Activity</li>
+          <li>Document Findings</li>
+          <li>Reset Environment</li>
+        </ol>
+
+        <h2>Current Focus</h2>
+        <p>The immediate focus is improving remote test execution, validating telemetry in Wazuh, and building repeatable investigations that can be documented as individual portfolio exercises.</p>
+
+        <h2>Acknowledgement</h2>
+        <p>A thank you to the Ludus team for providing me with a licence to use the platform in my homelab.</p>
+        <p>Having access to Ludus has allowed me to spend less time repeatedly building and maintaining lab infrastructure and more time actually using the environment for security testing and incident response practice.</p>
+      </div>
+    </article>
+  </main>
+</BaseLayout>

@@ -1,18 +1,26 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ArchivePanel from "../../components/ArchivePanel.astro";
-import RecordList from "../../components/RecordList.astro";
-import { getPublishedEntries } from "../../lib/content";
-
-const projects = (await getPublishedEntries("projects"))
-  .filter((entry) => entry.data.pageType !== "subpage")
-  .map((entry) => ({ ...entry, collection: "projects" as const }));
+import { sitePath } from "../../lib/content";
 ---
 
-<BaseLayout title="Projects" description="Cybersecurity project documentation by Slyzzed." currentPath="projects">
+<BaseLayout title="Projects" description="Practical cybersecurity projects by Bradley Ryan." currentPath="projects">
   <main class="page-shell">
-    <ArchivePanel label="Project Index" title="Projects">
-      <RecordList entries={projects} emptyMessage="No published project records are available yet." />
+    <ArchivePanel label="Selected Work" title="Projects" lede="Hands-on security environments built for monitoring, detection, investigation, and repeatable testing.">
+      <div class="project-list">
+        <article class="project-summary">
+          <h2>DFIR Homelab</h2>
+          <p>A controlled, self-hosted environment for developing practical digital forensics, incident response, monitoring, and detection capabilities.</p>
+          <p class="technology-list">Proxmox · Ludus · Wazuh · DFIR-IRIS · Sysmon · Atomic Red Team</p>
+          <a class="text-link" href={sitePath("/projects/dfir-homelab/")}>View Project</a>
+        </article>
+        <article class="project-summary">
+          <h2>Ludus Cyber Range</h2>
+          <p>A repeatable range for controlled attack testing, telemetry validation, alert investigation, and incident response practice.</p>
+          <p class="technology-list">Ludus · Proxmox · Wazuh · DFIR-IRIS · Atomic Red Team</p>
+          <a class="text-link" href={sitePath("/projects/ludus/")}>View Project</a>
+        </article>
+      </div>
     </ArchivePanel>
   </main>
 </BaseLayout>

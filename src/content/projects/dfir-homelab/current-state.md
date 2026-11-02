@@ -1,6 +1,6 @@
 ---
 title: Homelab Current State
-description: A snapshot of the homelabâ€™s current architecture, active security controls, monitoring capabilities, and remaining implementation work.
+description: A snapshot of the homelab's current architecture, active security controls, monitoring capabilities, and remaining implementation work.
 date: 2026-07-11
 status: published
 featured: false
@@ -34,8 +34,7 @@ Primary responsibilities:
 - Runs supporting services through Docker
     
 
-### ASUS TUF Router
-
+### ASUS TUF Router   
 The primary home network router.
 
 Primary responsibilities:

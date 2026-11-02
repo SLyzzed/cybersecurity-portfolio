@@ -5,18 +5,16 @@ import { sitePath } from "../lib/content";
 interface Props {
   title: string;
   description: string;
-  currentPath?: "home" | "projects" | "writeups" | "blog" | "about";
+  currentPath?: "home" | "projects" | "about";
 }
 
 const { title, description, currentPath } = Astro.props;
-const siteTitle = "Slyzzed";
-const pageTitle = title === siteTitle ? `${siteTitle} | Cybersecurity Documentation` : `${title} | ${siteTitle}`;
+const siteTitle = "Bradley Ryan";
+const pageTitle = title === siteTitle ? `${siteTitle} | Cybersecurity Portfolio` : `${title} | ${siteTitle}`;
 
 const navItems = [
   { href: sitePath("/"), label: "Home", key: "home" },
   { href: sitePath("/projects/"), label: "Projects", key: "projects" },
-  { href: sitePath("/writeups/"), label: "Write-ups", key: "writeups" },
-  { href: sitePath("/blog/"), label: "Blog", key: "blog" },
   { href: sitePath("/about/"), label: "About", key: "about" }
 ];
 ---
@@ -27,13 +25,12 @@ const navItems = [
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <link rel="alternate" type="application/rss+xml" title="Slyzzed Blog RSS" href={sitePath("/rss.xml")} />
     <title>{pageTitle}</title>
   </head>
   <body>
     <header class="site-header">
       <nav class="site-nav" aria-label="Primary navigation">
-        <a class="brand" href={sitePath("/")}>Slyzzed</a>
+        <a class="brand" href={sitePath("/")}>Bradley Ryan</a>
         <div class="nav-links">
           {navItems.map((item) => (
             <a href={item.href} aria-current={currentPath === item.key ? "page" : undefined}>
@@ -48,8 +45,8 @@ const navItems = [
     <slot />
 
     <footer class="site-footer">
-      <p>&copy; 2026 Slyzzed</p>
-      <p>Technical records and project documentation.</p>
+      <p>&copy; 2026 Bradley Ryan</p>
+      <p>Cybersecurity projects and practical work.</p>
     </footer>
   </body>
 </html>
