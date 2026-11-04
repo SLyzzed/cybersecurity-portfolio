@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { sitePath } from "../../lib/content";
 ---
 
 <BaseLayout title="Ludus Cyber Range" description="A self-hosted cyber range built with Ludus and Proxmox for repeatable security testing, detection validation, and incident response practice." currentPath="projects">
@@ -30,6 +31,57 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
           <li><strong>Atomic Red Team</strong> — controlled MITRE ATT&amp;CK technique execution</li>
         </ul>
 
+        <section aria-labelledby="investigation-poc-title">
+          <h2 id="investigation-poc-title">End-to-End Investigation POC</h2>
+          <p>This completed PowerShell TCP callback proof of concept validated that controlled PowerShell network activity could be executed within the Ludus range, collected through Sysmon and Wazuh, and investigated and documented using DFIR-IRIS.</p>
+
+          <h3>1. Range Deployment</h3>
+          <p>The environment consisted of segmented attacker, victim, monitoring, and case-management systems deployed through Ludus.</p>
+          <figure>
+            <img src={sitePath("/images/poc_test/ludus/ludus-range-architecture.png")} alt="Ludus range architecture showing segmented attacker, victim, monitoring, and case-management systems." loading="lazy" />
+            <figcaption>Segmented Ludus range used for the investigation POC.</figcaption>
+          </figure>
+
+          <h3>2. Controlled PowerShell Callback</h3>
+          <p>A PowerShell TCP callback simulation was executed on <code>BR-WIN11</code>, connecting to <code>BR-kali</code> on TCP port <code>4444</code>. This was a controlled network callback, not an interactive reverse shell.</p>
+          <figure>
+            <img src={sitePath("/images/poc_test/ludus/ludus-range-callback-command.png")} alt="PowerShell command used to execute the controlled TCP callback from BR-WIN11." loading="lazy" />
+            <figcaption>Controlled PowerShell callback executed on BR-WIN11.</figcaption>
+          </figure>
+          <figure>
+            <img src={sitePath("/images/poc_test/ludus/ludus-range-callback-response.png")} alt="Callback response received on BR-kali from the Windows victim system." loading="lazy" />
+            <figcaption>Callback received on BR-kali over TCP port 4444.</figcaption>
+          </figure>
+
+          <h3>3. Wazuh Telemetry</h3>
+          <p>Sysmon Event ID <code>3</code> recorded the PowerShell network connection, and Wazuh successfully ingested the event. The evidence validated telemetry collection and searchability; it did not establish that an automated detection alert was triggered.</p>
+          <ul>
+            <li>Source: <code>BR-WIN11</code> (Windows victim)</li>
+            <li>Destination: <code>BR-kali</code> (attacker)</li>
+            <li>Destination port: <code>4444/TCP</code></li>
+            <li>Process: <code>powershell.exe</code></li>
+            <li>MITRE ATT&amp;CK technique: <code>T1059.001</code> (PowerShell)</li>
+          </ul>
+          <figure>
+            <img src={sitePath("/images/poc_test/wauah/wazuah_evidence_from_BR-WIN11.png")} alt="Wazuh evidence from BR-WIN11 showing the Sysmon PowerShell network connection event." loading="lazy" />
+            <figcaption>Sysmon network connection telemetry collected in Wazuh.</figcaption>
+          </figure>
+
+          <h3>4. DFIR-IRIS Investigation</h3>
+          <p>The event was investigated, exported, preserved as evidence, and documented in DFIR-IRIS. The case was closed as an authorised lab simulation with no containment required.</p>
+          <figure>
+            <img src={sitePath("/images/poc_test/iris/summary.png")} alt="DFIR-IRIS investigation summary documenting the PowerShell callback lab simulation and case closure." loading="lazy" />
+            <figcaption>Completed investigation and case closure in DFIR-IRIS.</figcaption>
+          </figure>
+
+          <h3>5. Outcome</h3>
+          <ul>
+            <li>Successfully executed a controlled test across segmented Ludus networks.</li>
+            <li>Confirmed PowerShell network telemetry was collected and searchable in Wazuh.</li>
+            <li>Completed a documented investigation and case closure in DFIR-IRIS.</li>
+          </ul>
+        </section>
+
         <h2>Testing Workflow</h2>
         <ol class="workflow" aria-label="Ludus testing workflow">
           <li>Deploy Range</li>
@@ -41,9 +93,6 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
           <li>Reset Environment</li>
         </ol>
 
-        <h2>Current Focus</h2>
-        <p>The immediate focus is improving remote test execution, validating telemetry in Wazuh, and building repeatable investigations that can be documented as individual portfolio exercises.</p>
-
         <h2>Acknowledgement</h2>
         <p>A thank you to the Ludus team for providing me with a licence to use the platform in my homelab.</p>
         <p>Having access to Ludus has allowed me to spend less time repeatedly building and maintaining lab infrastructure and more time actually using the environment for security testing and incident response practice.</p>
@@ -51,3 +100,18 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
     </article>
   </main>
 </BaseLayout>
+
+<style>
+  figure {
+    margin: 24px 0;
+  }
+
+  figure img {
+    margin: 0 0 12px;
+  }
+
+  figcaption {
+    color: var(--muted);
+    font-size: var(--font-size-small);
+  }
+</style>
