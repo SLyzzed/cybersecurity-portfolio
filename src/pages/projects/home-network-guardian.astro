@@ -1,0 +1,40 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { sitePath } from "../../lib/content";
+
+const description = "A lightweight Windows tool that helps home users investigate unfamiliar network devices with a privacy-filtered, AI-ready report.";
+---
+
+<BaseLayout title="Home Network Guardian" description={description} currentPath="projects">
+  <main class="page-shell">
+    <article class="archive-panel markdown-page">
+      <p class="record-label">Cybersecurity Project</p>
+      <div class="markdown-content">
+        <h1>Home Network Guardian</h1>
+        <p class="lede">{description}</p>
+        <p class="technology-list">Windows Batch · PowerShell · Nmap · Npcap</p>
+
+        <h2>The Problem</h2>
+        <p>I started this project while helping a friend with little computer knowledge identify unfamiliar devices connected to their home network. Nmap could collect the information, but installing tools, running commands and interpreting the output required technical knowledge. I wanted to remove that barrier.</p>
+
+        <h2>Implementation</h2>
+        <p>I built a lightweight Windows tool using batch scripting, PowerShell and Nmap, with Npcap for packet capture. Users double-click a launcher, approve a network scan and receive a privacy-filtered report.</p>
+        <p>I included discovered device information, limited service findings and a prepared prompt for an AI assistant in the report. A Windows popup lets users copy it directly into their preferred AI assistant. No AI integration, subscriptions or accounts are required to use the tool.</p>
+
+        <h2>Testing and Results</h2>
+        <p>I successfully tested the application against a real home network. It discovered devices, completed limited service checks and generated an AI-ready report.</p>
+        <p>The final privacy audit reported 74 passing automated PowerShell tests, covering privacy filtering, consent, error handling and network scope restrictions. I treated this as limited validation rather than comprehensive user acceptance testing.</p>
+
+        <h2>Limitations and Next Steps</h2>
+        <p>I cannot guarantee that the application will identify every connected device or detect every camera. AI interpretations may be incorrect, and users must review the report before sharing information with an external AI service.</p>
+        <p>I have kept the initial v0.1.0 release as a pre-release pending wider user testing.</p>
+
+        <ul aria-label="Project links">
+          <li><a href="https://github.com/SLyzzed/home-network-guardian">Home Network Guardian source code</a></li>
+          <li><a href="https://github.com/SLyzzed/home-network-guardian/releases/tag/v0.1.0">v0.1.0 pre-release and download</a></li>
+          <li><a href={sitePath("/projects/")}>All projects</a></li>
+        </ul>
+      </div>
+    </article>
+  </main>
+</BaseLayout>
