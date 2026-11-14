@@ -3,6 +3,24 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import { sitePath } from "../../lib/content";
 
 const description = "A lightweight Windows tool that helps home users investigate unfamiliar network devices with a privacy-filtered, AI-ready report.";
+const exampleOutput = `Synthetic AI review — fictional devices and findings
+
+Summary
+Three devices responded. One needs further identification.
+
+Device review
+- Device A: Likely a router; a web management service responded.
+- Device B: May be a printer; a printing service responded.
+- Device C: Unidentified; a streaming service responded.
+  This alone does not confirm that the device is a camera.
+
+Suggested next steps
+Compare these devices with your router's device list and equipment
+you own. Check Device C before deciding whether it is unfamiliar.
+
+Uncertainty
+Device types are estimates. Devices may be missed, and incomplete
+checks do not prove that a device or service is absent.`;
 ---
 
 <BaseLayout title="Home Network Guardian" description={description} currentPath="projects">
@@ -14,21 +32,43 @@ const description = "A lightweight Windows tool that helps home users investigat
         <p class="lede">{description}</p>
         <p class="technology-list">Windows Batch · PowerShell · Nmap · Npcap</p>
 
-        <h2>The Problem</h2>
-        <p>I started this project while helping a friend with little computer knowledge identify unfamiliar devices connected to their home network. Nmap could collect the information, but installing tools, running commands and interpreting the output required technical knowledge. I wanted to remove that barrier.</p>
+        <h2>Overview</h2>
+        <p>Home Network Guardian is a lightweight Windows application that helps nontechnical users investigate unfamiliar devices on a home network. It runs a local scan, produces a privacy-filtered report and lets users copy the results into an AI assistant for explanation.</p>
+        <p>I built it after helping a friend identify unfamiliar devices. The application combines PowerShell, Nmap and Npcap behind a simple launcher; users do not need to run scan commands themselves. AI review is an optional, manual step.</p>
 
-        <h2>Implementation</h2>
-        <p>I built a lightweight Windows tool using batch scripting, PowerShell and Nmap, with Npcap for packet capture. Users double-click a launcher, approve a network scan and receive a privacy-filtered report.</p>
-        <p>I included discovered device information, limited service findings and a prepared prompt for an AI assistant in the report. A Windows popup lets users copy it directly into their preferred AI assistant. No AI integration, subscriptions or accounts are required to use the tool.</p>
+        <h2>How It Works</h2>
+        <ol>
+          <li><strong>Download and launch:</strong> Download the release and open the Windows launcher.</li>
+          <li><strong>Approve the scan:</strong> Confirm permission to scan the home network shown in the dialog.</li>
+          <li><strong>Discover devices:</strong> The application looks for responding devices and checks a limited set of services.</li>
+          <li><strong>Generate privacy-filtered report:</strong> Review device findings, incomplete checks and the prepared AI prompt.</li>
+          <li><strong>Copy into an AI assistant:</strong> Select “Copy for AI” and paste the report into your preferred assistant for explanation.</li>
+        </ol>
+
+        <h2>Screenshots</h2>
+        <figure>
+          <img src={sitePath("/images/projects/home-network-guardian/Permission.png")} alt="Home Network Guardian permission dialog with Scan my network and Cancel buttons." width="546" height="354" loading="lazy" />
+          <figcaption>The permission dialog explains the scan scope and asks for approval before scanning.</figcaption>
+        </figure>
+        <figure>
+          <img src={sitePath("/images/projects/home-network-guardian/Results.png")} alt="Home Network Guardian results dialog with Copy for AI, Open Report and Close buttons." width="622" height="482" loading="lazy" />
+          <figcaption>The results dialog lets users review the report or copy it for an optional AI explanation.</figcaption>
+        </figure>
+
+        <h2>Example Output</h2>
+        <h3>Synthetic Example Output</h3>
+        <p>This fictional AI review preserves the output structure while removing household-specific details; it is not taken from a real household network.</p>
+        <pre><code>{exampleOutput}</code></pre>
 
         <h2>Testing and Results</h2>
         <p>I successfully tested the application against a real home network. It discovered devices, completed limited service checks and generated an AI-ready report.</p>
         <p>The final privacy audit reported 74 passing automated PowerShell tests, covering privacy filtering, consent, error handling and network scope restrictions. I treated this as limited validation rather than comprehensive user acceptance testing.</p>
 
-        <h2>Limitations and Next Steps</h2>
+        <h2>Limitations</h2>
         <p>I cannot guarantee that the application will identify every connected device or detect every camera. AI interpretations may be incorrect, and users must review the report before sharing information with an external AI service.</p>
         <p>I have kept the initial v0.1.0 release as a pre-release pending wider user testing.</p>
 
+        <h2>Links</h2>
         <ul aria-label="Project links">
           <li><a href="https://github.com/SLyzzed/home-network-guardian">Home Network Guardian source code</a></li>
           <li><a href="https://github.com/SLyzzed/home-network-guardian/releases/tag/v0.1.0">v0.1.0 pre-release and download</a></li>
