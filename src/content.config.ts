@@ -14,6 +14,17 @@ const sharedSchema = z.object({
   tags: z.array(z.string()).default([])
 });
 
+const researchSchema = sharedSchema.extend({
+  infrastructureRefs: z.array(z.string().min(1)).default([])
+});
+
+function researchCollection(directory: string) {
+  return defineCollection({
+    loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/" + directory, generateId: contentId }),
+    schema: researchSchema
+  });
+}
+
 const projects = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/projects", generateId: contentId }),
   schema: sharedSchema.extend({
@@ -36,7 +47,7 @@ const writeups = defineCollection({
 
 const blog = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/blog", generateId: contentId }),
-  schema: sharedSchema.extend({
+  schema: researchSchema.extend({
     updatedDate: z.coerce.date().optional(),
     authorAlias: z.string().min(1),
     category: z.string().min(1),
@@ -47,5 +58,9 @@ const blog = defineCollection({
 export const collections = {
   projects,
   writeups,
+  infrastructure: researchCollection("infrastructure"),
+  research: researchCollection("research"),
+  investigations: researchCollection("investigations"),
+  engineering: researchCollection("engineering"),
   blog
 };

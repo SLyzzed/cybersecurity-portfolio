@@ -1,9 +1,9 @@
 ---
-import { getEntryUrl } from "../lib/content";
+import { getEntryUrl, type CollectionName } from "../lib/content";
 
 interface Entry {
   id: string;
-  collection: "projects" | "writeups" | "blog";
+  collection: CollectionName;
   data: {
     title: string;
     description: string;

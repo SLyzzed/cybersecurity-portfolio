@@ -1,0 +1,59 @@
+---
+import { render } from "astro:content";
+import { researchSections } from "../../config/research-sections";
+import MarkdownLayout from "../../layouts/MarkdownLayout.astro";
+import { estimateReadingTime, getPublishedEntries, sitePath } from "../../lib/content";
+import { getInfrastructureLinks } from "../../lib/infrastructure";
+
+export async function getStaticPaths() {
+  const links = await getInfrastructureLinks();
+  const groups = await Promise.all(researchSections.map(async (section) => {
+    const entries = await getPublishedEntries(section.collection);
+    return entries.map((entry) => ({
+      params: { section: section.slug, slug: entry.id },
+      props: {
+        section,
+        entry,
+        infrastructure: entry.data.infrastructureRefs.map((id) => {
+          const link = links.get(id);
+          if (!link) {
+            throw new Error(`${entry.collection}/${entry.id} references missing or unpublished infrastructure "${id}".`);
+          }
+          return link;
+        })
+      }
+    }));
+  }));
+  return groups.flat();
+}
+
+const { section, entry, infrastructure } = Astro.props;
+const { Content } = await render(entry);
+const { title, description, date, tags } = entry.data;
+const blog = entry.collection === "blog" ? entry.data : undefined;
+---
+
+<MarkdownLayout
+  title={title}
+  description={description}
+  date={date}
+  label={section.title}
+  currentPath={section.slug}
+  tags={tags}
+  updatedDate={blog?.updatedDate}
+  authorAlias={blog?.authorAlias}
+  category={blog?.category}
+  readingTime={blog && entry.body ? estimateReadingTime(entry.body) : undefined}
+  coverImage={blog?.coverImage}
+>
+  <a class="text-link" href={sitePath(`/${section.slug}/`)}>Browse {section.title}</a>
+  <Content />
+  {infrastructure.length > 0 && (
+    <section aria-labelledby="shared-infrastructure-title">
+      <h2 id="shared-infrastructure-title">Shared infrastructure</h2>
+      <ul>
+        {infrastructure.map(({ href, title }) => <li><a href={href}>{title}</a></li>)}
+      </ul>
+    </section>
+  )}
+</MarkdownLayout>

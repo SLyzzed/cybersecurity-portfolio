@@ -1,0 +1,34 @@
+---
+import ArchivePanel from "../../components/ArchivePanel.astro";
+import RecordList from "../../components/RecordList.astro";
+import { researchSections } from "../../config/research-sections";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getPublishedEntries, sitePath } from "../../lib/content";
+
+export async function getStaticPaths() {
+  const paths = await Promise.all(researchSections.map(async (section) => ({
+    params: { section: section.slug },
+    props: { section, entries: await getPublishedEntries(section.collection) }
+  })));
+  return paths.filter(({ props }) => props.section.slug !== "blog" || props.entries.length > 0);
+}
+
+const { section, entries } = Astro.props;
+---
+
+<BaseLayout title={section.title} description={section.description} currentPath={section.slug}>
+  <main class="page-shell">
+    <ArchivePanel label="Slyzed" title={section.title} lede={section.description}>
+      {section.projects.length > 0 && (
+        <ul class="record-list">
+          {section.projects.map((project) => (
+            <li><a href={sitePath(project.href)}>{project.title}</a></li>
+          ))}
+        </ul>
+      )}
+      {(entries.length > 0 || section.projects.length === 0) && (
+        <RecordList entries={entries} emptyMessage="No articles published yet." />
+      )}
+    </ArchivePanel>
+  </main>
+</BaseLayout>

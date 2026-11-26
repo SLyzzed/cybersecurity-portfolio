@@ -1,21 +1,23 @@
 ---
 import "../styles/global.css";
-import { sitePath } from "../lib/content";
+import { getPublishedBlogPosts, sitePath } from "../lib/content";
+import { researchSections, type ResearchSection } from "../config/research-sections";
 
 interface Props {
   title: string;
   description: string;
-  currentPath?: "home" | "projects" | "about";
+  currentPath?: "home" | "projects" | "about" | ResearchSection["slug"];
 }
 
 const { title, description, currentPath } = Astro.props;
 const siteTitle = "Slyzed";
 const pageTitle = title === siteTitle ? `${siteTitle} | Cybersecurity Portfolio` : `${title} | ${siteTitle}`;
 
-const navItems = [
-  { href: sitePath("/"), label: "Home", key: "home" },
-  { href: sitePath("/projects/"), label: "Projects", key: "projects" },
-  { href: sitePath("/about/"), label: "About", key: "about" }
+const hasBlogPosts = (await getPublishedBlogPosts()).length > 0;
+const navItems = researchSections.filter(({ slug }) => slug !== "blog" || hasBlogPosts);
+const secondaryNav = [
+  { href: sitePath("/projects/"), title: "All Projects", key: "projects" },
+  { href: sitePath("/about/"), title: "About", key: "about" }
 ];
 ---
 
@@ -30,14 +32,15 @@ const navItems = [
   <body>
     <header class="site-header">
       <nav class="site-nav" aria-label="Primary navigation">
-        <a class="brand" href={sitePath("/")}>Slyzed</a>
+        <a class="brand" href={sitePath("/")} aria-current={currentPath === "home" ? "page" : undefined}>Slyzed</a>
         <div class="nav-links">
-          {navItems.map((item) => (
-            <a href={item.href} aria-current={currentPath === item.key ? "page" : undefined}>
-              {item.label}
-            </a>
-          ))}
-          <a href="https://github.com/SLyzzed" target="_blank" rel="noopener noreferrer">GitHub</a>
+          {navItems.map(({ slug, title }) => {
+            const href = sitePath(`/${slug}/`);
+            const active = currentPath === slug
+              ? (Astro.url.pathname === href ? "page" : "location")
+              : undefined;
+            return <a href={href} aria-current={active}>{title}</a>;
+          })}
         </div>
       </nav>
     </header>
@@ -46,7 +49,14 @@ const navItems = [
 
     <footer class="site-footer">
       <p>Slyzed</p>
-      <p><a href="https://github.com/SLyzzed" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+      <nav class="nav-links secondary-nav" aria-label="Secondary navigation">
+        {secondaryNav.map(({ href, title, key }) => (
+          <a href={href} aria-current={currentPath === key && Astro.url.pathname === href ? "page" : undefined}>
+            {title}
+          </a>
+        ))}
+        <a href="https://github.com/SLyzzed" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </nav>
     </footer>
   </body>
 </html>

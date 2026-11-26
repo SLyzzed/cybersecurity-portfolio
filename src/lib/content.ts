@@ -1,6 +1,8 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 
-export type CollectionName = "projects" | "writeups" | "blog";
+import { researchSections, type ResearchSection } from "../config/research-sections";
+
+export type CollectionName = "projects" | "writeups" | ResearchSection["collection"];
 
 export async function getPublishedEntries<C extends CollectionName>(collection: C): Promise<CollectionEntry<C>[]> {
   const entries = await getCollection(collection, ({ data }) => data.status === "published");
@@ -97,7 +99,8 @@ export function getEntryUrl(collection: CollectionName, slug: string) {
   const routeSlug = collection === "projects" && (slug.endsWith("/index") || slug.endsWith("/overview"))
     ? slug.slice(0, slug.lastIndexOf("/"))
     : slug;
-  return sitePath(`/${collection}/${routeSlug}/`);
+  const section = researchSections.find((item) => item.collection === collection);
+  return sitePath(`/${section?.slug ?? collection}/${routeSlug}/`);
 }
 
 export function sitePath(pathname: string) {
