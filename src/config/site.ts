@@ -1,5 +1,5 @@
 export const siteConfig = {
-  title: "Slyzed",
+  title: "Slyzzed",
   description: "Cybersecurity projects, investigations and technical write-ups",
   blogAuthorAlias: "Archive Operator"
 };

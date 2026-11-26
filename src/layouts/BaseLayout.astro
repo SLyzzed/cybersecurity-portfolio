@@ -10,7 +10,7 @@ interface Props {
 }
 
 const { title, description, currentPath } = Astro.props;
-const siteTitle = "Slyzed";
+const siteTitle = "Slyzzed";
 const pageTitle = title === siteTitle ? `${siteTitle} | Cybersecurity Portfolio` : `${title} | ${siteTitle}`;
 
 const hasBlogPosts = (await getPublishedBlogPosts()).length > 0;
@@ -32,7 +32,7 @@ const secondaryNav = [
   <body>
     <header class="site-header">
       <nav class="site-nav" aria-label="Primary navigation">
-        <a class="brand" href={sitePath("/")} aria-current={currentPath === "home" ? "page" : undefined}>Slyzed</a>
+        <a class="brand" href={sitePath("/")} aria-current={currentPath === "home" ? "page" : undefined}>Slyzzed</a>
         <div class="nav-links">
           {navItems.map(({ slug, title }) => {
             const href = sitePath(`/${slug}/`);
@@ -48,7 +48,7 @@ const secondaryNav = [
     <slot />
 
     <footer class="site-footer">
-      <p>Slyzed</p>
+      <p>Slyzzed</p>
       <nav class="nav-links secondary-nav" aria-label="Secondary navigation">
         {secondaryNav.map(({ href, title, key }) => (
           <a href={href} aria-current={currentPath === key && Astro.url.pathname === href ? "page" : undefined}>

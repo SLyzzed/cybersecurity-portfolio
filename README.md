@@ -1,4 +1,4 @@
-# Slyzed Cybersecurity Portfolio
+# Slyzzed Cybersecurity Portfolio
 
 This site documents my practical work, technical development, and ongoing progression as a cybersecurity engineer.
 
