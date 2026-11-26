@@ -26,15 +26,23 @@ checks do not prove that a device or service is absent.`;
 <BaseLayout title="Home Network Guardian" description={description} currentPath="projects">
   <main class="page-shell">
     <article class="archive-panel markdown-page">
-      <p class="record-label">Cybersecurity Project</p>
+      <p class="record-label">Security Engineering</p>
       <div class="markdown-content">
         <h1>Home Network Guardian</h1>
         <p class="lede">{description}</p>
+        <p><strong>Release status:</strong> v0.1.0 remains an experimental pre-release pending wider testing.</p>
         <p class="technology-list">Windows Batch · PowerShell · Nmap · Npcap</p>
 
-        <h2>Overview</h2>
-        <p>Home Network Guardian is a lightweight Windows application that helps nontechnical users investigate unfamiliar devices on a home network. It runs a local scan, produces a privacy-filtered report and lets users copy the results into an AI assistant for explanation.</p>
-        <p>I built it after helping a friend identify unfamiliar devices. The application combines PowerShell, Nmap and Npcap behind a simple launcher; users do not need to run scan commands themselves. AI review is an optional, manual step.</p>
+        <h2>Why I Built It</h2>
+        <p>When I work with networks regularly, it is easy to forget how unfamiliar they can be to someone without a technical background. This project started when I helped someone who was worried about devices they did not recognise on their home network. I could explain why an unfamiliar entry might be harmless, but reassurance alone could not tell either of us what the device actually was.</p>
+        <p>I wanted to see whether I could make that first step of an investigation more accessible. I also wanted to be able to verify what the tool did myself before suggesting anyone run it on their network.</p>
+
+        <h2>Making the First Check Accessible</h2>
+        <p>I designed the launcher for someone who has never used a command line and does not know how a home network is laid out, what a port scan does or what the security terminology means. The aim was to give them enough evidence to decide whether to look further or ask for help. The tool cannot certify that a network is secure or replace professional advice. Accessibility is a design goal that still needs wider user testing.</p>
+
+        <h2>Collecting and Interpreting Evidence</h2>
+        <p>I used PowerShell, Nmap and Npcap behind a Windows Batch launcher. The application discovers responding devices, runs a limited set of service checks and prepares a privacy-filtered report. I kept evidence collection separate from interpretation. A service response is something the tool observed, while a suggestion about the type of device is an inference.</p>
+        <p>Building a reliable interpretation engine for the range of manufacturers, IoT devices and network services people have at home would have made this a much larger project. Making interpretation an optional step with an existing AI assistant kept the application lightweight. An assistant can explain unfamiliar terms or suggest what to check next, but its answers can be inaccurate, out of date or misleading. I would use them as guidance and check them against the equipment and evidence available.</p>
 
         <h2>How It Works</h2>
         <ol>
@@ -44,6 +52,11 @@ checks do not prove that a device or service is absent.`;
           <li><strong>Generate privacy-filtered report:</strong> Review device findings, incomplete checks and the prepared AI prompt.</li>
           <li><strong>Copy into an AI assistant:</strong> Select “Copy for AI” and paste the report into your preferred assistant for explanation.</li>
         </ol>
+
+        <h2>Privacy and Responsible Use</h2>
+        <p>Scanning and report preparation happen locally. The application does not automatically upload results or connect to AI services. The report prepared for AI excludes IP addresses, MAC addresses and hostnames, but the remaining service details may still reveal information about the household.</p>
+        <p>I added a consent dialog so users can see the network and the scope of the checks before deciding whether to proceed. I limited the scan and filtered the report to reduce the amount of information collected or shared. The tool is intended for a home network the user owns or has permission to scan. The dialog asks for confirmation, but it cannot establish ownership or prevent misuse.</p>
+        <p>AI review is optional. The user can open and review the report locally, then decide whether to copy and paste it into an external assistant. I made that a manual step because even a filtered report can contain information someone would prefer to keep private. Pasting it into an external service shares it with that service.</p>
 
         <h2>Screenshots</h2>
         <figure>
@@ -67,6 +80,14 @@ checks do not prove that a device or service is absent.`;
         <h2>Limitations</h2>
         <p>I cannot guarantee that the application will identify every connected device or detect every camera. AI interpretations may be incorrect, and users must review the report before sharing information with an external AI service.</p>
         <p>I have kept the initial v0.1.0 release as a pre-release pending wider user testing.</p>
+
+        <h2>What Wider Use Would Require</h2>
+        <p>Before recommending it widely, I would want more extensive quality assurance and accessibility testing, with a wider range of devices and home network setups. I would also want clearer ways to show what a result does and does not establish, so a missed device or incomplete check does not give someone false reassurance.</p>
+        <p>I would look for stronger safeguards against unauthorised use and more reliable ways to interpret the results. I would also review the legal, licensing and software redistribution obligations before any broader release.</p>
+
+        <h2>Project Outcome</h2>
+        <p>This was a proof of concept for accessible cybersecurity. The home-network test showed that I could combine established networking tools with a simple interface and a privacy-filtered report. I may develop it further as an open-source project, but commercial development is outside my current plans.</p>
+        <p>I developed Home Network Guardian with AI assistance.</p>
 
         <h2>Links</h2>
         <ul aria-label="Project links">
