@@ -6,37 +6,45 @@ import { sitePath } from "../../lib/content";
 <BaseLayout title="Ludus Cyber Range" description="A self-hosted cyber range built with Ludus and Proxmox for repeatable security testing, detection validation, and incident response practice." currentPath="projects">
   <main class="page-shell">
     <article class="archive-panel markdown-page">
-      <p class="record-label">Cybersecurity Project</p>
+      <p class="record-label">Infrastructure</p>
       <div class="markdown-content">
         <h1>Ludus Cyber Range</h1>
-        <p class="lede">A self-hosted cyber range built with Ludus and Proxmox for repeatable security testing, detection validation, and incident response practice.</p>
+        <p class="lede">I built this self-hosted cyber range to spend more time testing ideas, following evidence and practising incident response.</p>
 
-        <h2>The Problem I Was Solving</h2>
-        <p>One of the biggest barriers I found with maintaining a cybersecurity homelab was the amount of time spent preparing environments.</p>
-        <p>Creating virtual machines, configuring networks, installing tooling, taking snapshots, and rebuilding systems after testing could take longer than the security exercise itself.</p>
-        <p>I wanted the lab to be something I could actually use regularly rather than another infrastructure project that constantly needed maintenance.</p>
-        <p>Ludus helps solve this by allowing me to build repeatable cyber ranges that can be deployed, tested, reset, and reused. This shifts more of my lab time toward executing attack techniques, analysing telemetry, and practising incident response rather than repeatedly configuring virtual machines.</p>
+        <h2>Why I Built the Range</h2>
+        <p>I learn best by trying things for myself. In cybersecurity courses, I often spent a good part of a session setting up virtual machines, configuring endpoints, and sorting out networking and firewall rules. By the time I reached the exercise, I had already spent much of the time and energy I had set aside for it.</p>
+        <p>Remote training environments brought a different frustration. Slow virtual machines and remote desktop sessions broke my concentration just as I was trying to follow a lead. I wanted a lab where I could pick up an investigation and keep following the evidence while it was fresh in my mind.</p>
 
-        <h2>Purpose</h2>
-        <p>The goal of the environment is to make security testing repeatable.</p>
-        <p>Rather than manually rebuilding virtual machines for each exercise, Ludus allows me to deploy attacker and victim systems, take snapshots, execute controlled attack techniques, investigate the resulting telemetry, and then reset the environment for the next test.</p>
+        <h2>Why I Chose Dedicated Hardware</h2>
+        <p>I wanted the lab to run independently of my everyday gaming PC. Dedicated hardware lets me leave the environment running without having to shut down virtual machines to reclaim resources for my desktop. Being able to reach the range remotely was also an important design consideration.</p>
+        <p>Longer term, I would like to invite trusted cybersecurity colleagues to reproduce scenarios and investigate attacker behaviour together. Collaborative access is a future goal.</p>
 
-        <h2>Environment</h2>
-        <p>The current environment uses:</p>
+        <h2>Why I Chose Ludus</h2>
+        <p>Network orchestration was the main draw. I can define the virtual machines, network segments and communication rules that make up a range, then reuse that definition for the next exercise. The educational licence also gave me access to Ludus's enterprise graphical interface.</p>
+        <p>I still need to understand which systems should communicate and why. Having those choices captured in the range definition means I can spend less time reapplying them and more time checking whether the environment behaves as I expect.</p>
+
+        <h2>How I Chose the Tools</h2>
         <ul>
-          <li><strong>Ludus</strong> — cyber range deployment and management</li>
-          <li><strong>Proxmox</strong> — virtualisation platform</li>
-          <li><strong>Wazuh</strong> — endpoint monitoring and security telemetry</li>
-          <li><strong>DFIR-IRIS</strong> — incident investigation and case management</li>
-          <li><strong>Atomic Red Team</strong> — controlled MITRE ATT&amp;CK technique execution</li>
+          <li><strong>Proxmox</strong> provides the virtualisation layer that runs the lab virtual machines.</li>
+          <li><strong>Wazuh</strong> gives me an accessible, open-source way to collect and search endpoint telemetry. I was already familiar with it from cybersecurity training.</li>
+          <li><strong>DFIR-IRIS</strong> gives me structured case records, evidence organisation and investigation timelines. I initially considered building my own incident management assistant for notes and evidence. That was turning into a software project of its own, so I looked at purpose-built case management tools and chose DFIR-IRIS.</li>
+          <li><strong>Atomic Red Team</strong> gives me a way to run controlled tests mapped to MITRE ATT&amp;CK techniques.</li>
         </ul>
 
+        <h2>Network Architecture</h2>
+        <p>I put the attacker and victim systems on separate network segments. The monitoring and case-management systems sit on a third segment, where I can collect telemetry and document the investigation away from the two test endpoints.</p>
+        <p>Segmentation was a security requirement for the design. If the test systems shared a flat network, they would have a direct path to each other without a deliberate routing decision. With separate segments, I can decide which traffic should cross those boundaries and keep unrelated paths closed. The distinction also makes it easier to reason about whether an event was produced by the exercise or by another system in the range.</p>
+        <p>I designed the segmentation around recognised security practices, including limiting communication between systems to what they need. I also wanted the research environment isolated from my household network so that traffic from an exercise would stay away from personal devices and services. Household isolation was a design objective. The proof of concept verified the test traffic within the range, and I did not use it to verify the boundary with the household network.</p>
+        <p>The proof of concept made that boundary tangible. The callback needed an explicit inter-VLAN rule between the test systems. That let me validate the specific network activity and trace it through monitoring without opening general access between segments.</p>
+
         <section aria-labelledby="investigation-poc-title">
-          <h2 id="investigation-poc-title">End-to-End Investigation POC</h2>
-          <p>This completed PowerShell TCP callback proof of concept validated that controlled PowerShell network activity could be executed within the Ludus range, collected through Sysmon and Wazuh, and investigated and documented using DFIR-IRIS.</p>
+          <h2 id="investigation-poc-title">Validating the Investigation Workflow</h2>
+          <p>I used a controlled PowerShell TCP callback to test whether I could follow a single event from the endpoint, through Sysmon and Wazuh, into a documented case in DFIR-IRIS.</p>
+
+          <p>I deliberately kept the initial proof of concept simple. Before investing time in a more complex investigation, I wanted to establish that the environment worked as intended. The last thing I wanted was to get halfway through a research project and discover that the telemetry I needed wasn't being collected or that part of the infrastructure wasn't configured correctly.</p>
 
           <h3>1. Range Deployment</h3>
-          <p>The environment consisted of segmented attacker, victim, monitoring, and case-management systems deployed through Ludus.</p>
+          <p>I deployed the segmented range through Ludus, with separate systems for the test endpoints, monitoring and case management.</p>
           <figure>
             <img src={sitePath("/images/poc_test/ludus/ludus-range-architecture.png")} alt="Ludus range architecture showing segmented attacker, victim, monitoring, and case-management systems." loading="lazy" />
             <figcaption>Segmented Ludus range used for the investigation POC.</figcaption>
@@ -54,7 +62,7 @@ import { sitePath } from "../../lib/content";
           </figure>
 
           <h3>3. Wazuh Telemetry</h3>
-          <p>Sysmon Event ID <code>3</code> recorded the PowerShell network connection, and Wazuh successfully ingested the event. The evidence validated telemetry collection and searchability; it did not establish that an automated detection alert was triggered.</p>
+          <p>Sysmon Event ID <code>3</code> recorded the PowerShell network connection. I found the event in Wazuh, which confirmed that the telemetry had been collected and was searchable. Whether an automated alert fired remained unverified.</p>
           <ul>
             <li>Source: <code>BR-WIN11</code> (Windows victim)</li>
             <li>Destination: <code>BR-kali</code> (attacker)</li>
@@ -68,7 +76,7 @@ import { sitePath } from "../../lib/content";
           </figure>
 
           <h3>4. DFIR-IRIS Investigation</h3>
-          <p>The event was investigated, exported, preserved as evidence, and documented in DFIR-IRIS. The case was closed as an authorised lab simulation with no containment required.</p>
+          <p>I reviewed the event, exported it as evidence and documented it in DFIR-IRIS. I closed the case as an authorised lab simulation with no containment required.</p>
           <figure>
             <img src={sitePath("/images/poc_test/iris/summary.png")} alt="DFIR-IRIS investigation summary documenting the PowerShell callback lab simulation and case closure." loading="lazy" />
             <figcaption>Completed investigation and case closure in DFIR-IRIS.</figcaption>
@@ -93,9 +101,12 @@ import { sitePath } from "../../lib/content";
           <li>Reset Environment</li>
         </ol>
 
+        <h2>Ongoing Research</h2>
+        <p>Ludus will form the foundation of my ongoing cybersecurity research, including vulnerability reproduction, detection engineering, attack experimentation and incident investigations.</p>
+        <p>I don't want the homelab itself to become an endless infrastructure project. Its value comes from what it enables me to learn, investigate and experiment with.</p>
+
         <h2>Acknowledgement</h2>
-        <p>A thank you to the Ludus team for providing me with a licence to use the platform in my homelab.</p>
-        <p>Having access to Ludus has allowed me to spend less time repeatedly building and maintaining lab infrastructure and more time actually using the environment for security testing and incident response practice.</p>
+        <p>Thank you to the Ludus team for providing the educational licence I use in my homelab.</p>
       </div>
     </article>
   </main>
