@@ -29,16 +29,21 @@ const output = {
 <BaseLayout title="API Threat Detector" description={description} currentPath="projects">
   <main class="page-shell">
     <article class="archive-panel markdown-page">
-      <p class="record-label">Cybersecurity Project</p>
+      <p class="record-label">Security Engineering</p>
       <div class="markdown-content">
         <h1>API Threat Detector</h1>
         <p class="lede">{description}</p>
 
-        <h2>Overview and Purpose</h2>
-        <p>I developed a Python-based API threat detector to explore how suspicious API requests can be identified and classified using rule-based detection.</p>
-        <p>The tool examines API request data for SQL injection, command injection and path traversal techniques. I selected these techniques because they relate to high-priority risks identified in the OWASP Top 10, particularly Injection and Broken Access Control.</p>
-        <p>When a rule matches, it generates a finding, assigns a risk score and classifies the request as Benign, Suspicious or Malicious.</p>
-        <p>The focus was on building a modular detection engine that could be tested, evaluated and expanded without having to rewrite the existing rules.</p>
+        <h2>Why I Built It</h2>
+        <p>I use APIs regularly, but I wanted to develop a better understanding of application and runtime security. How is a request put together? What does a malicious request look like, and what helps a detector distinguish it from legitimate traffic? Building a basic detection engine gave me a practical way to work through those questions.</p>
+
+        <h2>Returning to the Fundamentals</h2>
+        <p>Modern security platforms do a lot of valuable work for me by packaging the steps involved in detection and investigation. I still want to understand what happens underneath. Writing the rules myself meant I had to decide which fields to inspect, what a match actually meant, and how much weight to give it.</p>
+
+        <h2>Project Scope</h2>
+        <p>The detector was a way to learn. I kept it to static, rule-based detection so I could focus on request structure, the characteristics of malicious requests, rule writing, risk scoring and classification, and the trade-offs involved in tuning false positives. Behavioural analysis, production-grade detection and commercial viability were outside the scope.</p>
+        <p>The tool examines API request data for SQL injection, command injection and path traversal. I chose these techniques because they relate to high-priority risks in the OWASP Top 10, particularly Injection and Broken Access Control.</p>
+        <p>When a rule matches, it produces a finding. The engine uses its findings to score the request and classify it as Benign, Suspicious or Malicious. I kept the rules modular so I could test and extend them independently.</p>
 
         <h2>Architecture and Implementation</h2>
         <p>The detector is built in Python, using Pydantic to validate incoming JSON requests.</p>
@@ -89,6 +94,8 @@ const output = {
 
         <h2>Testing and Results</h2>
         <p>I tested the detector using 28 simulated API requests, consisting of 14 attack requests and 14 benign requests. The aim was to evaluate detection accuracy, identify false positives and confirm that the scoring system behaved as expected.</p>
+        <p>I passed the synthetic requests directly to the detection engine. The evaluation did not start an HTTP server or execute any payloads. Both Suspicious and Malicious classifications counted as flagged requests.</p>
+
         <table>
           <thead><tr><th scope="col">Measure</th><th scope="col">Result</th></tr></thead>
           <tbody>
@@ -101,12 +108,18 @@ const output = {
         </table>
         <p>The detector successfully identified all expected SQL injection and path traversal cases. Command injection detection identified 4 of 5 expected cases.</p>
         <p>The two false positives involved legitimate text containing SQL injection and command injection examples. The missed attack used Windows single-ampersand command chaining, which is not currently supported.</p>
-        <p>These results were obtained using a small synthetic dataset rather than live API traffic.</p>
+        <p>These results describe a small synthetic dataset. I did not measure how the detector would perform on live API traffic.</p>
 
         <h2>Limitations and Lessons Learned</h2>
-        <p>The main limitation identified during testing was the difficulty of distinguishing malicious requests from legitimate text containing attack examples. Without understanding how an application processes the input, the detector relies on matching suspicious patterns.</p>
-        <p>The current detection rules also cover a limited range of techniques and variations. Additional testing with real-world API traffic would be required to better understand detection accuracy and false positives.</p>
-        <p>This project highlighted the importance of balancing detection coverage with false positives, as well as building modular rules that can be tested and improved independently.</p>
+        <p>The two false positives made the distinction between a suspicious pattern and malicious intent clear. The rules found the patterns they were written to catch in requests that were legitimate in the dataset. A rule can work as designed and still be a poor fit for an environment where users routinely submit that kind of text.</p>
+        <p>The missed request showed a different limit. The command injection rule covered four of the five examples I tested, but the rule set did not cover every variation. The test identified a gap in this implementation. It could not tell me how often that gap would matter in a real application.</p>
+        <p>For a live deployment, I would want to understand what the application does with each input and use normal traffic as a baseline. That context would help me decide which matches deserve attention and which rules need tuning. I would revisit those decisions as the application and its traffic changed.</p>
+
+        <h2>Completing the Proof of Concept</h2>
+        <p>This proof of concept achieved what I set out to learn. I worked through how API requests are structured, how to turn suspicious patterns into rules, and how scoring decisions affect the results. I considered the proof of concept complete once it answered those questions.</p>
+        <p>At this point, I would rather apply what I learned to other areas of cybersecurity than keep extending the same detector. I may integrate it into the homelab if a future experiment calls for it.</p>
+
+        <p>I developed this tool with AI assistance.</p>
 
         <h2>Links</h2>
         <ul>
