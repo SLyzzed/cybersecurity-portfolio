@@ -1,0 +1,187 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { sitePath } from "../../lib/content";
+
+const description = "A Python-based API threat detection engine using modular rules to identify SQL injection, command injection and path traversal attempts.";
+const input = {
+  method: "GET",
+  path: "/api/files/%2e%2e/secrets"
+};
+const output = {
+  verdict: "Suspicious",
+  risk_score: 65,
+  explanation: "Matched techniques: path_traversal. Risk score: 65/100.",
+  findings: [
+    {
+      rule_id: "PATH_001",
+      technique: "path_traversal",
+      signal: "parent_directory_segment",
+      field: "path",
+      explanation: "Path contains parent-directory navigation.",
+      evidence: {
+        decoded_path: "/api/files/../secrets"
+      }
+    }
+  ]
+};
+---
+
+<BaseLayout title="API Threat Detector" description={description} currentPath="projects">
+  <main class="page-shell">
+    <article class="archive-panel markdown-page">
+      <p class="record-label">Cybersecurity Project</p>
+      <div class="markdown-content">
+        <h1>API Threat Detector</h1>
+        <p class="lede">{description}</p>
+
+        <h2>Overview and Purpose</h2>
+        <p>I developed a Python-based API threat detector to explore how suspicious API requests can be identified and classified using rule-based detection.</p>
+        <p>The tool examines API request data for SQL injection, command injection and path traversal techniques. I selected these techniques because they relate to high-priority risks identified in the OWASP Top 10, particularly Injection and Broken Access Control.</p>
+        <p>When a rule matches, it generates a finding, assigns a risk score and classifies the request as Benign, Suspicious or Malicious.</p>
+        <p>The focus was on building a modular detection engine that could be tested, evaluated and expanded without having to rewrite the existing rules.</p>
+
+        <h2>Architecture and Implementation</h2>
+        <p>The detector is built in Python, using Pydantic to validate incoming JSON requests.</p>
+        <p>Each request is processed through three independent detection rules covering SQL injection, command injection and path traversal. The rules examine request fields for suspicious patterns and return findings containing the matched technique, affected field and an explanation.</p>
+        <p>Findings are passed to a scoring component that assigns weighted risk scores, capped at 100.</p>
+        <p>Classification thresholds:</p>
+        <ul>
+          <li>Benign: 0–29</li>
+          <li>Suspicious: 30–79</li>
+          <li>Malicious: 80–100</li>
+        </ul>
+        <p>The detection rules are separated from scoring and classification, making it easier to introduce additional techniques without changing the existing detection process.</p>
+
+        <figure class="architecture" aria-labelledby="architecture-caption">
+          <figcaption id="architecture-caption">Request processing flow</figcaption>
+          <div class="flow-node">JSON API Request</div>
+          <span class="flow-arrow" aria-hidden="true">↓</span>
+          <div class="flow-node">Request Validation</div>
+          <span class="flow-arrow" aria-hidden="true">↓</span>
+          <div class="flow-node">Detection Rules</div>
+          <div class="rule-branches" role="group" aria-label="Three independent detection rules">
+            <div class="rule-node">SQL</div>
+            <div class="rule-node">Command</div>
+            <div class="rule-node">Path</div>
+          </div>
+          <div class="flow-node">Detection Findings</div>
+          <span class="flow-arrow" aria-hidden="true">↓</span>
+          <div class="flow-node">Risk Scoring (0–100)</div>
+          <span class="flow-arrow" aria-hidden="true">↓</span>
+          <div class="flow-node">Final Classification</div>
+        </figure>
+
+        <section aria-labelledby="detection-example-title">
+          <h3 id="detection-example-title">Detection Example</h3>
+          <p class="example-label">Input</p>
+          <pre><code>{JSON.stringify(input, null, 2)}</code></pre>
+          <dl class="result-summary">
+            <div><dt>Verdict</dt><dd>Suspicious</dd></div>
+            <div><dt>Risk Score</dt><dd>65 / 100</dd></div>
+            <div><dt>Technique</dt><dd>Path Traversal</dd></div>
+          </dl>
+          <p>The detector decodes the path, identifies parent-directory traversal and assigns a Suspicious classification.</p>
+          <details>
+            <summary>View detection evidence</summary>
+            <pre><code>{JSON.stringify(output, null, 2)}</code></pre>
+          </details>
+        </section>
+
+        <h2>Testing and Results</h2>
+        <p>I tested the detector using 28 simulated API requests, consisting of 14 attack requests and 14 benign requests. The aim was to evaluate detection accuracy, identify false positives and confirm that the scoring system behaved as expected.</p>
+        <table>
+          <thead><tr><th scope="col">Measure</th><th scope="col">Result</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Attacks detected</th><td>13/14 (92.9%)</td></tr>
+            <tr><th scope="row">Benign requests correctly classified</th><td>12/14 (85.7%)</td></tr>
+            <tr><th scope="row">False positives</th><td>2</td></tr>
+            <tr><th scope="row">Missed attacks</th><td>1</td></tr>
+            <tr><th scope="row">Unit tests passed</th><td>19/19</td></tr>
+          </tbody>
+        </table>
+        <p>The detector successfully identified all expected SQL injection and path traversal cases. Command injection detection identified 4 of 5 expected cases.</p>
+        <p>The two false positives involved legitimate text containing SQL injection and command injection examples. The missed attack used Windows single-ampersand command chaining, which is not currently supported.</p>
+        <p>These results were obtained using a small synthetic dataset rather than live API traffic.</p>
+
+        <h2>Limitations and Lessons Learned</h2>
+        <p>The main limitation identified during testing was the difficulty of distinguishing malicious requests from legitimate text containing attack examples. Without understanding how an application processes the input, the detector relies on matching suspicious patterns.</p>
+        <p>The current detection rules also cover a limited range of techniques and variations. Additional testing with real-world API traffic would be required to better understand detection accuracy and false positives.</p>
+        <p>This project highlighted the importance of balancing detection coverage with false positives, as well as building modular rules that can be tested and improved independently.</p>
+
+        <h2>Links</h2>
+        <ul>
+          <li><a href="https://github.com/SLyzzed/api-threat-detector">API Threat Detector source code</a></li>
+          <li><a href="https://github.com/SLyzzed/api-threat-detector/tree/master/evaluation">Evaluation methodology and results</a></li>
+          <li><a href={sitePath("/projects/")}>All projects</a></li>
+        </ul>
+      </div>
+    </article>
+  </main>
+</BaseLayout>
+
+<style>
+  .architecture {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 560px;
+    padding: 24px 16px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--surface);
+    font-size: var(--font-size-small);
+    text-align: center;
+  }
+  .architecture figcaption { margin-bottom: 20px; }
+  .flow-node {
+    width: min(100%, 260px);
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--surface-deep);
+  }
+  .flow-arrow { color: var(--accent); line-height: 1.5; }
+  .rule-branches {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+    margin: 16px 0;
+    border-block: 1px solid var(--border);
+  }
+  .rule-node { position: relative; padding: 20px 2px; }
+  .rule-node::before, .rule-node::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    height: 12px;
+    border-left: 1px solid var(--border);
+  }
+  .rule-node::before { top: 0; }
+  .rule-node::after { bottom: 0; }
+  .rule-branches::before, .rule-branches::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    height: 16px;
+    border-left: 1px solid var(--border);
+  }
+  .rule-branches::before { top: -17px; }
+  .rule-branches::after { bottom: -17px; }
+  .example-label { margin-bottom: 8px; font-weight: 600; }
+  .example-label + pre { margin-top: 0; }
+  .result-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 32px;
+    margin: 20px 0;
+    padding: 16px 20px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--surface);
+  }
+  .result-summary dt { color: var(--muted); font-size: var(--font-size-small); }
+  .result-summary dd { margin: 0; font-weight: 600; }
+  summary { width: fit-content; color: var(--accent); cursor: pointer; }
+  summary:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
+</style>

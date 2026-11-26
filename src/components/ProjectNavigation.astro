@@ -1,0 +1,71 @@
+---
+import type { ProjectConfig } from "../lib/projects";
+import { getProjectPageUrl } from "../lib/projects";
+import { sitePath } from "../lib/content";
+
+interface Props {
+  project: ProjectConfig;
+  currentPageSlug: string;
+  showCards?: boolean;
+  showBreadcrumb?: boolean;
+  showPager?: boolean;
+}
+
+const {
+  project,
+  currentPageSlug,
+  showCards = false,
+  showBreadcrumb = true,
+  showPager = true
+} = Astro.props;
+const pages = [...project.pages].sort((a, b) => a.order - b.order);
+const currentIndex = pages.findIndex((page) => page.slug === currentPageSlug);
+const previous = currentIndex > 0 ? pages[currentIndex - 1] : undefined;
+const next = currentIndex >= 0 && currentIndex < pages.length - 1 ? pages[currentIndex + 1] : undefined;
+const current = currentIndex >= 0 ? pages[currentIndex] : undefined;
+---
+
+{showBreadcrumb && <nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href={sitePath("/projects/")}>Projects</a></li>
+    {currentPageSlug === "overview" ? (
+      <li aria-current="page">{project.name}</li>
+    ) : (
+      <>
+        <li><a href={getProjectPageUrl(project.slug)}>{project.name}</a></li>
+        <li aria-current="page">{current?.title}</li>
+      </>
+    )}
+  </ol>
+</nav>}
+
+{showCards && (
+  <section class="project-section-index" aria-labelledby="project-sections-title">
+    <h2 id="project-sections-title">Project Documentation</h2>
+    <div class="project-card-grid">
+      {pages.filter((page) => page.slug !== "overview").map((page) => (
+        <a href={getProjectPageUrl(project.slug, page.slug)}>
+          <span class="meta">Section {String(page.order).padStart(2, "0")}</span>
+          <strong>{page.title}</strong>
+        </a>
+      ))}
+    </div>
+  </section>
+)}
+
+{showPager && (previous || next) && (
+  <nav class="post-nav project-page-nav" aria-label="Project page navigation">
+    {previous ? (
+      <a href={getProjectPageUrl(project.slug, previous.slug)}>
+        <span class="meta">Previous</span>
+        {previous.title}
+      </a>
+    ) : <span></span>}
+    {next && (
+      <a href={getProjectPageUrl(project.slug, next.slug)}>
+        <span class="meta">Next</span>
+        {next.title}
+      </a>
+    )}
+  </nav>
+)}

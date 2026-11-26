@@ -1,0 +1,52 @@
+---
+import "../styles/global.css";
+import { sitePath } from "../lib/content";
+
+interface Props {
+  title: string;
+  description: string;
+  currentPath?: "home" | "projects" | "about";
+}
+
+const { title, description, currentPath } = Astro.props;
+const siteTitle = "Slyzed";
+const pageTitle = title === siteTitle ? `${siteTitle} | Cybersecurity Portfolio` : `${title} | ${siteTitle}`;
+
+const navItems = [
+  { href: sitePath("/"), label: "Home", key: "home" },
+  { href: sitePath("/projects/"), label: "Projects", key: "projects" },
+  { href: sitePath("/about/"), label: "About", key: "about" }
+];
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a class="brand" href={sitePath("/")}>Slyzed</a>
+        <div class="nav-links">
+          {navItems.map((item) => (
+            <a href={item.href} aria-current={currentPath === item.key ? "page" : undefined}>
+              {item.label}
+            </a>
+          ))}
+          <a href="https://github.com/SLyzzed" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
+      </nav>
+    </header>
+
+    <slot />
+
+    <footer class="site-footer">
+      <p>Slyzed</p>
+      <p><a href="https://github.com/SLyzzed" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+    </footer>
+  </body>
+</html>
