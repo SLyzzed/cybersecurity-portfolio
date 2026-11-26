@@ -37,57 +37,15 @@ import { sitePath } from "../../lib/content";
         <p>I designed the segmentation around recognised security practices, including limiting communication between systems to what they need. I also wanted the research environment isolated from my household network so that traffic from an exercise would stay away from personal devices and services. Household isolation was a design objective. The proof of concept verified the test traffic within the range, and I did not use it to verify the boundary with the household network.</p>
         <p>The proof of concept made that boundary tangible. The callback needed an explicit inter-VLAN rule between the test systems. That let me validate the specific network activity and trace it through monitoring without opening general access between segments.</p>
 
+        <figure>
+          <img src={sitePath("/images/poc_test/ludus/ludus-range-architecture.png")} alt="Ludus range architecture showing segmented attacker, victim, monitoring, and case-management systems." loading="lazy" />
+          <figcaption>Segmented Ludus range used for the investigation POC.</figcaption>
+        </figure>
+
         <section aria-labelledby="investigation-poc-title">
           <h2 id="investigation-poc-title">Validating the Investigation Workflow</h2>
-          <p>I used a controlled PowerShell TCP callback to test whether I could follow a single event from the endpoint, through Sysmon and Wazuh, into a documented case in DFIR-IRIS.</p>
-
-          <p>I deliberately kept the initial proof of concept simple. Before investing time in a more complex investigation, I wanted to establish that the environment worked as intended. The last thing I wanted was to get halfway through a research project and discover that the telemetry I needed wasn't being collected or that part of the infrastructure wasn't configured correctly.</p>
-
-          <h3>1. Range Deployment</h3>
-          <p>I deployed the segmented range through Ludus, with separate systems for the test endpoints, monitoring and case management.</p>
-          <figure>
-            <img src={sitePath("/images/poc_test/ludus/ludus-range-architecture.png")} alt="Ludus range architecture showing segmented attacker, victim, monitoring, and case-management systems." loading="lazy" />
-            <figcaption>Segmented Ludus range used for the investigation POC.</figcaption>
-          </figure>
-
-          <h3>2. Controlled PowerShell Callback</h3>
-          <p>A PowerShell TCP callback simulation was executed on <code>BR-WIN11</code>, connecting to <code>BR-kali</code> on TCP port <code>4444</code>. This was a controlled network callback, not an interactive reverse shell.</p>
-          <figure>
-            <img src={sitePath("/images/poc_test/ludus/ludus-range-callback-command.png")} alt="PowerShell command used to execute the controlled TCP callback from BR-WIN11." loading="lazy" />
-            <figcaption>Controlled PowerShell callback executed on BR-WIN11.</figcaption>
-          </figure>
-          <figure>
-            <img src={sitePath("/images/poc_test/ludus/ludus-range-callback-response.png")} alt="Callback response received on BR-kali from the Windows victim system." loading="lazy" />
-            <figcaption>Callback received on BR-kali over TCP port 4444.</figcaption>
-          </figure>
-
-          <h3>3. Wazuh Telemetry</h3>
-          <p>Sysmon Event ID <code>3</code> recorded the PowerShell network connection. I found the event in Wazuh, which confirmed that the telemetry had been collected and was searchable. Whether an automated alert fired remained unverified.</p>
-          <ul>
-            <li>Source: <code>BR-WIN11</code> (Windows victim)</li>
-            <li>Destination: <code>BR-kali</code> (attacker)</li>
-            <li>Destination port: <code>4444/TCP</code></li>
-            <li>Process: <code>powershell.exe</code></li>
-            <li>MITRE ATT&amp;CK technique: <code>T1059.001</code> (PowerShell)</li>
-          </ul>
-          <figure>
-            <img src={sitePath("/images/poc_test/wauah/wazuh-endpoint-evidence.png")} alt="Wazuh evidence from the lab endpoint showing the Sysmon PowerShell network connection event." loading="lazy" />
-            <figcaption>Sysmon network connection telemetry collected in Wazuh.</figcaption>
-          </figure>
-
-          <h3>4. DFIR-IRIS Investigation</h3>
-          <p>I reviewed the event, exported it as evidence and documented it in DFIR-IRIS. I closed the case as an authorised lab simulation with no containment required.</p>
-          <figure>
-            <img src={sitePath("/images/poc_test/iris/summary.png")} alt="DFIR-IRIS investigation summary documenting the PowerShell callback lab simulation and case closure." loading="lazy" />
-            <figcaption>Completed investigation and case closure in DFIR-IRIS.</figcaption>
-          </figure>
-
-          <h3>5. Outcome</h3>
-          <ul>
-            <li>Successfully executed a controlled test across segmented Ludus networks.</li>
-            <li>Confirmed PowerShell network telemetry was collected and searchable in Wazuh.</li>
-            <li>Completed a documented investigation and case closure in DFIR-IRIS.</li>
-          </ul>
+          <p>I validated the workflow with a controlled PowerShell TCP callback across the segmented range. Sysmon recorded the connection, I found the event in Wazuh, and I exported the evidence and closed the case in DFIR-IRIS. This confirmed that I could collect and investigate the telemetry. Whether an automated alert fired remained unverified.</p>
+          <p><a class="text-link" href={sitePath("/incident-investigations/powershell-tcp-callback/")}>Read the PowerShell TCP callback investigation</a></p>
         </section>
 
         <h2>Testing Workflow</h2>
