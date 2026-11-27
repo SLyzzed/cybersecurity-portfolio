@@ -1,4 +1,5 @@
 ---
+import LudusLabMap from "../../components/LudusLabMap.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { sitePath } from "../../lib/content";
 ---
@@ -36,6 +37,8 @@ import { sitePath } from "../../lib/content";
         <p>Segmentation was a security requirement for the design. If the test systems shared a flat network, they would have a direct path to each other without a deliberate routing decision. With separate segments, I can decide which traffic should cross those boundaries and keep unrelated paths closed. The distinction also makes it easier to reason about whether an event was produced by the exercise or by another system in the range.</p>
         <p>I designed the segmentation around recognised security practices, including limiting communication between systems to what they need. I also wanted the research environment isolated from my household network so that traffic from an exercise would stay away from personal devices and services. Household isolation was a design objective. The proof of concept verified the test traffic within the range, and I did not use it to verify the boundary with the household network.</p>
         <p>The proof of concept made that boundary tangible. The callback needed an explicit inter-VLAN rule between the test systems. That let me validate the specific network activity and trace it through monitoring without opening general access between segments.</p>
+
+        <LudusLabMap />
 
         <figure>
           <img src={sitePath("/images/poc_test/ludus/ludus-range-architecture.png")} alt="Ludus range architecture showing segmented attacker, victim, monitoring, and case-management systems." loading="lazy" />

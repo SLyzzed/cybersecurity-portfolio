@@ -1,0 +1,160 @@
+---
+import { sitePath } from "../lib/content";
+
+const segments = [
+  {
+    title: "Test client",
+    systems: [{ name: "Kali Linux", role: "Generates controlled lab traffic and receives the test callback." }],
+    investigations: [
+      { title: "PowerShell TCP callback", slug: "powershell-tcp-callback" },
+      { title: "VAmPI API investigation", slug: "vampi-unauthorised-api-data-access" }
+    ]
+  },
+  {
+    title: "Windows test endpoint",
+    systems: [{ name: "Windows 11 + Sysmon", role: "Runs the controlled Windows test and records endpoint activity." }],
+    investigations: [{ title: "PowerShell TCP callback", slug: "powershell-tcp-callback" }]
+  },
+  {
+    title: "Monitoring and case management",
+    systems: [
+      { name: "Wazuh", role: "Collects lab telemetry and makes events searchable." },
+      { name: "DFIR-IRIS", role: "Holds investigation notes, evidence and timelines." }
+    ],
+    investigations: [
+      { title: "PowerShell TCP callback", slug: "powershell-tcp-callback" },
+      { title: "VAmPI API investigation", slug: "vampi-unauthorised-api-data-access" }
+    ]
+  }
+];
+---
+
+<section class="lab-map" aria-labelledby="ludus-map-title">
+  <h3 id="ludus-map-title">Explore the Ludus range</h3>
+  <p class="map-intro">Select a segment to see what runs there and how it was used in an investigation.</p>
+  <div class="map-router">
+    <strong>Ludus router</strong>
+    <span>Connects the lab segments according to the range rules.</span>
+  </div>
+
+  <div class="map-segments">
+    {segments.map(({ title, systems, investigations }) => (
+      <details class="map-segment">
+        <summary>{title}</summary>
+        <div class="map-node-content">
+          <dl>
+            {systems.map(({ name, role }) => (
+              <div>
+                <dt>{name}</dt>
+                <dd>{role}</dd>
+              </div>
+            ))}
+          </dl>
+          <ul aria-label="Related investigations">
+            {investigations.map(({ title, slug }) => (
+              <li><a href={sitePath(`/incident-investigations/${slug}/`)}>{title}</a></li>
+            ))}
+          </ul>
+        </div>
+      </details>
+    ))}
+  </div>
+</section>
+
+<style>
+  .lab-map {
+    --map-line: #72a6ac;
+    padding: clamp(18px, 4vw, 32px);
+    margin: 32px 0;
+    border: 1px solid #30485f;
+    border-radius: 16px;
+    background: radial-gradient(ellipse at top, #214354, #14273b 65%);
+    color: #e4f0f6;
+  }
+  .lab-map h3 { margin: 0 0 8px; color: #a9f3db; }
+  .map-intro { margin: 0 0 24px; }
+  .map-router {
+    width: fit-content;
+    max-width: 100%;
+    margin-inline: auto;
+    padding: 10px 16px;
+    border: 1px solid var(--map-line);
+    border-radius: 8px;
+    background: #172e41;
+    text-align: center;
+  }
+  .map-router strong, .map-router span { display: block; }
+  .map-router span { font-size: var(--font-size-small); }
+  .map-segments {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+    gap: 16px;
+    padding-top: 32px;
+  }
+  .map-segments::before, .map-segments::after, .map-segment::before {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+  }
+  .map-segments::before {
+    top: 0;
+    left: 50%;
+    height: 16px;
+    border-left: 1px dashed var(--map-line);
+  }
+  .map-segments::after {
+    top: 16px;
+    inset-inline: calc((100% - 32px) / 6);
+    border-top: 1px dashed var(--map-line);
+  }
+  .map-segment {
+    position: relative;
+    min-width: 0;
+    border: 1px solid #51717f;
+    border-radius: 8px;
+    background: #172e41;
+  }
+  .map-segment::before {
+    top: -17px;
+    left: 50%;
+    height: 16px;
+    border-left: 1px dashed var(--map-line);
+  }
+  .map-segment summary {
+    min-height: 44px;
+    padding: 10px 12px;
+    border-radius: 7px;
+    color: #e4f9f4;
+    cursor: pointer;
+    font-weight: 650;
+  }
+  .map-segment summary:hover, .map-segment[open] summary { background: #254958; }
+  .map-segment summary:focus-visible, .map-segment a:focus-visible { outline-color: #a9f3db; }
+  .map-node-content { padding: 8px 12px 12px; font-size: var(--font-size-small); }
+  .map-node-content dl, .map-node-content ul { margin: 0; }
+  .map-node-content dl div + div { margin-top: 10px; }
+  .map-node-content dt { font-weight: 650; }
+  .map-node-content dd { margin: 0; color: #c8dce8; }
+  .map-node-content ul { margin-top: 12px; padding-left: 18px; }
+  .map-node-content a { color: #a9f3db; }
+  @media (max-width: 720px) {
+    .map-router { margin-left: 0; text-align: left; }
+    .map-segments {
+      grid-template-columns: minmax(0, 1fr);
+      margin-left: 12px;
+      padding: 16px 0 0 16px;
+      border-left: 1px dashed var(--map-line);
+    }
+    .map-segments::before, .map-segments::after { display: none; }
+    .map-segment::before {
+      top: 22px;
+      left: -17px;
+      width: 16px;
+      height: 0;
+      border: 0;
+      border-top: 1px dashed var(--map-line);
+    }
+  }
+</style>
