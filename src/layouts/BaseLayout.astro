@@ -32,8 +32,9 @@ const secondaryNav = [
   <body>
     <header class="site-header">
       <nav class="site-nav" aria-label="Primary navigation">
-        <a class="brand" href={sitePath("/")} aria-current={currentPath === "home" ? "page" : undefined}>Slyzzed</a>
+        <a class="brand" href={sitePath("/")}>Slyzzed</a>
         <div class="nav-links">
+          <a href={sitePath("/")} aria-current={currentPath === "home" ? "page" : undefined}>Home</a>
           {navItems.map(({ slug, title }) => {
             const href = sitePath(`/${slug}/`);
             const active = currentPath === slug
